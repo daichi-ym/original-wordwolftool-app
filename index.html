@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ワードウルフ進行支援ツール">
+    <title>みんなでワードウルフ</title>
+    <!-- <link rel="icon" href="favicon.ico"> -->
+    <!-- reset.css ress -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <main>
+        <div class="word-wolf-container">
+
+            <!-- モーダルマスク -->
+            <div id="modal-mask" class="modal-mask"></div>
+
+            <!-- トップページ -->
+            <section id="top-page-screen" class="top-page-screen screen  screen--active">
+                <h1 class="top-page__title title title--main">みんなでワードウルフ</h1>
+                <button id="start-new-game-btn" class="btn btn--primary">はじめから</button>
+                <button id="continue-game-btn" class="btn btn--primary">つづきから</button>
+            </section>
+
+            <!-- 設定画面 -->
+            <section id="setup-screen" class="setup-screen screen">
+                <h2 class="title title--section">ゲーム設定</h2>
+                <div class="setup-screen__content">
+                    <h3 class="title title--content">プレイヤー構成</h3>
+                    <div class="setup-screen__form-group">
+                        <label class="setup-screen__form-label" for="total-players">プレイヤー総数:</label>
+                        <input type="number" id="total-players" class="setup-screen__form-input" min="3" max="7"
+                            value="4">
+                        <p class="setup-screen__form-text">※ 村人: 3-6人、ウルフ: 1人（固定）</p>
+                    </div>
+                </div>
+                <div class="setup-screen__content">
+                    <h3 class="title title--content">プレイヤー名</h3>
+                    <div id="player-names-container"></div>
+                </div>
+                <div class="setup-screen__content">
+                    <h3 class="title title--content">タイマー設定</h3>
+                    <div class="setup-screen__form-group">
+                        <label class="setup-screen__form-label" for="timer-minutes">制限時間（分）:</label>
+                        <input type="number" id="timer-minutes" class="setup-screen__form-input" min="1" max="10"
+                            value="3">
+                    </div>
+                </div>
+                <button id="start-game-btn" class="btn btn--primary">ゲーム開始</button>
+            </section>
+
+            <!-- ワード配布画面 -->
+            <section id="word-distribution-screen" class="word-distribution-screen screen">
+                <h2 class="title title--section">ワード配布</h2>
+                <div id="current-player-info">
+                    <h3 id="current-player-name" class="title title--content"></h3>
+                    <button id="reveal-word-btn" class="btn btn--danger">ワードを確認</button>
+                </div>
+
+                <div id="word-modal" class="word-distribution-screen__modal">
+                    <h3 id="word-modal-player-name" class="title title--content"></h3>
+                    <div id="modal-word" class="word-distribution-screen__word-display"></div>
+                    <button id="next-player-btn"
+                        class="word-distribution-screen__modal-btn btn btn--primary">次のプレイヤーへ</button>
+                    <button id="show-discussion-btn"
+                        class="word-distribution-screen__modal-btn btn btn--primary">討論画面へ</button>
+                </div>
+            </section>
+
+            <!-- 討論画面 -->
+            <section id="discussion-screen" class="discussion-screen screen">
+                <h2 class="title title--section">討論</h2>
+                <div class="discussion-screen__content">
+                    <div id="timer-display" class="discussion-screen__timer"></div>
+                    <button id="start-timer-btn" class="btn btn--primary">討論開始</button>
+                    <div class="discussion-screen__timer-controls">
+                        <button id="pause-timer-btn"
+                            class="discussion-screen__timer-controls-btn btn btn--secondary">一時停止</button>
+                        <button id="resume-timer-btn"
+                            class="discussion-screen__timer-controls-btn btn btn--secondary">再開</button>
+                        <button id="end-discussion-btn"
+                            class="discussion-screen__timer-controls-btn btn btn--danger">討論終了</button>
+                    </div>
+                </div>
+                <div class="discussion-screen__content">
+                    <div id="players-list" class="discussion-screen__players-list">
+                        <div class="discussion-screen__player-item"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 投票画面 -->
+            <section id="vote-screen" class="vote-screen screen">
+                <h2 class="title title--section">投票</h2>
+                <div class="vote-screen__content">
+                    <button id="start-vote-btn" class="vote-screen__content-btn btn btn--primary">投票開始</button>
+                    <button id="vote-result-btn" class="vote-screen__content-btn btn btn--danger">投票結果へ</button>
+                    <button id="continue-discussion-btn"
+                        class="vote-screen__content-btn btn btn--secondary">再討論</button>
+                </div>
+
+                <div id="vote-modal" class="vote-screen__modal">
+                    <h3 id="vote-modal-player-name" class="title title--content"></h3>
+                    <ul id="vote-modal-options" class="vote-screen__options"></ul>
+                    <button id="vote-modal-submit-btn" class="btn btn--primary">投票</button>
+                </div>
+            </section>
+
+            <!-- 投票結果画面 -->
+            <section id="vote-result-screen" class="vote-result-screen screen">
+                <h2 class="title title--section">投票結果</h2>
+                <div class="vote-result-screen__result">
+                    <div id="vote-result-accused-player" class="vote-result-screen__accused-player"></div>
+                    <div id="vote-result-success" class="vote-result-screen__result-item vote-result-screen__result-item--success">
+                        <span>指名成功</span><br>
+                        <span class="vote-result-screen__wolf-player"></span>
+                    </div>
+                    <div id="vote-result-failure" class="vote-result-screen__result-item vote-result-screen__result-item--failure">
+                        <span>指名失敗</span><br>
+                        <span class="vote-result-screen__wolf-player"></span>
+                    </div>
+                </div>
+                <div class="vote-result-screen__volt-history">
+                    <h3 class="title title--content">投票履歴</h3>
+                    <ul id="vote-result-volt-history-list" class="vote-result-screen__volt-history-list"></ul>
+                </div>
+                <button id="wolf-chance-btn" class="btn btn--primary">ウルフ逆転チャンス</button>
+                <button id="game-result-btn-vote" class="btn btn--secondary">ゲーム結果へ</button>
+            </section>
+
+            <!-- 逆転チャンス画面 -->
+            <section id="wolf-chance-screen" class="screen">
+                <h2 class="title title--section">逆転チャンス</h2>
+                <p class="wolf-chance-screen__form-text">ウルフは村人のワードを推測してください</p>
+                <div class="wolf-chance-screen__form-group">
+                    <label class="wolf-chance-screen__form-label" for="wolf-guess">推測するワード:</label>
+                    <input type="text" id="wolf-guess" class="wolf-chance-screen__form-input" placeholder="ワードを入力">
+                </div>
+                <button id="submit-guess-btn" class="btn btn--primary">回答する</button>
+            </section>
+
+            <!-- 逆転チャンス結果画面 -->
+            <section id="wolf-chance-result-screen" class="screen">
+                <h2 class="title title--section">逆転チャンス結果</h2>
+                <div class="wolf-chance-result-screen__result">
+                    <div id="wolf-chance-result-success" class="wolf-chance-result-screen__result-item wolf-chance-result-screen__result-item--success">
+                        <span>正解</span><br>
+                        <span class="wolf-chance-result-screen__villager-word"></span>
+                    </div>
+                    <div id="wolf-chance-result-failure" class="wolf-chance-result-screen__result-item wolf-chance-result-screen__result-item--failure">
+                        <span>不正解</span><br>
+                        <span class="wolf-chance-result-screen__villager-word"></span>
+                    </div>
+                </div>
+                <button id="game-result-btn-wolf-chance" class="btn btn--primary">ゲーム結果へ</button>
+            </section>
+
+            <!-- ゲーム結果画面 -->
+            <section id="game-result-screen" class="game-result-screen screen">
+                <h2 class="title title--section">ゲーム結果</h2>
+                <div class="game-result-screen__result">
+                    <div class="game-result-screen__result-item game-result-screen__result-item--villager-win"
+                        id="game-result-villager">村人の勝利！</div>
+                    <div class="game-result-screen__result-item game-result-screen__result-item--wolf-win"
+                        id="game-result-wolf">ウルフの勝利！</div>
+                </div>
+                <div class="game-result-screen__score-board">
+                    <h3 class="title title--content">スコアボード</h3>
+                    <ul id="score-list" class="game-result-screen__score-list"></ul>
+                </div>
+                <button id="next-game-btn" class="btn btn--primary">次のゲームへ</button>
+                <button id="end-game-btn" class="btn btn--secondary">ゲーム終了</button>
+            </section>
+
+            <!-- 最終結果画面 -->
+            <section id="end-result-screen" class="end-result-screen screen">
+                <h2 class="title title--section">最終結果</h2>
+                <div class="end-result-screen__score-board">
+                    <h3 class="title title--content">スコアボード</h3>
+                    <ul id="end-result-score-list" class="end-result-screen__score-list"></ul>
+                </div>
+                <button id="back-to-top-btn" class="btn btn--primary">トップ画面へ</button>
+            </section>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

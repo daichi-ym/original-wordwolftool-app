@@ -1,0 +1,767 @@
+// ===========================================
+//  UTILITIES
+// ===========================================
+
+$primary-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+$primary-color: #3498db; // メインカラー
+$primary-color-light: #e8f4fd; // メインカラーのライト
+$secondary-color: #27ae60; // セカンダリーカラー
+$secondary-color-light: #d4edda; // セカンダリーカラーのライト
+$accent-color: #e74c3c; // アクセントカラー
+$accent-color-light: #f8d7da; // アクセントカラーのライト
+
+
+$title-main-color: #2c3e50; // タイトルメインカラー
+$primary-font-color: #2c3e50; // デフォルトのテキストカラー
+$primary-font-color-light: #fff; // デフォルトのテキストカラー
+
+$primary-bg-color: #fff; // デフォルトの背景色
+$body-bg-color: #eee; // スクリーン背面の背景色
+$content-bg-color: #f8f9fa; // コンテンツ背景色
+$content-item-bg-color: #fff; // コンテンツアイテム背景色
+
+
+$shadow-low: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); // 影の低め
+$shadow-high: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); // 影の高め
+
+//ブレイクポイント変数設定
+$mq-breakpoints: (
+    "sp": 480px,
+    "tab": 600px,
+    "pc" : 960px,
+);
+
+// スマホ基準(〜以上)
+@mixin minmq($breakpoint: sp) {
+    @media (min-width: #{map-get($mq-breakpoints, $breakpoint)}) {
+        @content;
+    }
+}
+
+// PC基準(〜未満)
+@mixin maxmq($breakpoint: sp) {
+    @media (max-width: #{map-get($mq-breakpoints, $breakpoint)}) {
+        @content;
+    }
+}
+
+// コンテンツボックス
+@mixin content-box {
+    background: $content-bg-color;
+    border-radius: 12px;
+    padding: 24px;
+    border-left: 4px solid $primary-color;
+}
+
+/* ===========================================
+//  Animations
+// ======================================== */
+
+// 下からフェードイン
+@-webkit-keyframes fadeIn-bottom {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn-bottom {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===========================================
+//  COMMON
+// ======================================== */
+
+html {
+    font-size: 100%;
+    overflow-y: scroll;
+}
+
+body {
+    font-size: 1rem;
+    color: $primary-font-color;
+    line-height: 1.5;
+    font-family: $primary-font;
+    background: $body-bg-color;
+}
+
+img {
+    vertical-align: bottom;
+    max-width: 100%;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+/* ===========================================
+//  Word Wolf
+// ======================================== */
+
+$screen-bg-color: $primary-bg-color;
+$screen-animation-duration: 0.3s;
+
+.word-wolf-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 12px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 表示画面 */
+.screen {
+    display: none;
+    background: $screen-bg-color;
+    border-radius: 16px;
+    padding: 32px 16px;
+    box-shadow: $shadow-high;
+    flex: 1 1 auto;
+    min-height: 100%;
+
+    &--active {
+        display: flex;
+        flex-direction: column;
+        animation: fadeIn-bottom $screen-animation-duration ease-out,
+    }
+}
+
+.modal-mask {
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    background: rgba($color: #000, $alpha: 0.5);
+    z-index: 1;
+    transition: opacity 0.3s ease-out;
+
+    &--active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+/* ===========================================
+//  タイトル
+// ======================================== */
+
+.title {
+    text-align: center;
+    font-weight: 700;
+
+    &--main {
+        font-size: 1.6rem;
+        color: $title-main-color;
+        margin: 48px 0;
+    }
+
+    &--section {
+        font-size: 1.4rem;
+        margin-bottom: 24px;
+    }
+
+    &--content {
+        font-size: 1.2rem;
+        margin-bottom: 16px;
+    }
+}
+
+/* ===========================================
+//  ボタン
+// ======================================== */
+
+$btn-primary-font-color: #fff;
+$btn-primary-bg-color: linear-gradient(135deg, #3498db, #2980b9);
+$btn-primary-bg-hover-color: linear-gradient(135deg, #2980b9, #1f5f8b);
+
+$btn-secondary-font-color: #fff;
+$btn-secondary-bg-color: linear-gradient(135deg, #95a5a6, #7f8c8d);
+$btn-secondary-bg-hover-color: linear-gradient(135deg, #7f8c8d, #6c7b7d);
+
+$btn-danger-font-color: #fff;
+$btn-danger-bg-color: linear-gradient(135deg, #e74c3c, #c0392b);
+$btn-danger-bg-hover-color: linear-gradient(135deg, #c0392b, #a93226);
+
+// ボタン無効化
+@mixin btn-disabled {
+    background: #ccc;
+    color: #888;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+// ボタンホバー
+@mixin btn-hover {
+    transform: scale(1.02);
+    box-shadow: $shadow-high;
+}
+
+.btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 12px 0;
+    width: 100%;
+    box-shadow: $shadow-low;
+
+    &--primary {
+        background: $btn-primary-bg-color;
+        color: $btn-primary-font-color;
+
+        &:hover {
+            background: $btn-primary-bg-hover-color;
+            @include btn-hover;
+        }
+
+        &:disabled {
+            @include btn-disabled;
+        }
+    }
+
+    &--secondary {
+        background: $btn-secondary-bg-color;
+        color: $btn-secondary-font-color;
+
+        &:hover {
+            background: $btn-secondary-bg-hover-color;
+            @include btn-hover;
+        }
+
+        &:disabled {
+            @include btn-disabled;
+        }
+    }
+
+    &--danger {
+        background: $btn-danger-bg-color;
+        color: $btn-danger-font-color;
+
+        &:hover {
+            background: $btn-danger-bg-hover-color;
+            @include btn-hover;
+        }
+
+        &:disabled {
+            @include btn-disabled;
+        }
+    }
+}
+
+/* ===========================================
+//  設定画面
+// ======================================== */
+
+$setup-screen-form-input-border: 2px solid #ccc;
+
+.setup-screen {
+    &__content {
+        @include content-box;
+        margin-bottom: 24px;
+    }
+
+    &__form {
+        &-group {
+            margin-bottom: 16px;
+        }
+
+        &-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        &-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: $setup-screen-form-input-border;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: $content-item-bg-color;
+            transition: border-color 0.3s ease;
+
+            &:focus {
+                outline: none;
+                border-color: $primary-color;
+                box-shadow: $shadow-low;
+            }
+        }
+
+        &-text {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+    }
+}
+
+/* ===========================================
+//  ワード配布画面
+// ======================================== */
+
+$word-distribution-word-display-bg-color: $content-item-bg-color;
+$word-distribution-word-display-font-size: 2rem;
+
+$word-distribution-modal-animation-duration: 0.5s;
+
+.word-distribution-screen {
+    position: relative;
+
+    &__modal {
+        @include content-box;
+        box-shadow: $shadow-high;
+        position: absolute;
+        inset: 12px 8px;
+        z-index: 1;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-10px);
+        transition: all 0.3s ease-out;
+
+        &--active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(0);
+        }
+
+        &-btn {
+            display: none;
+        }
+    }
+
+    &__word-display {
+        background: $word-distribution-word-display-bg-color;
+        margin-bottom: 16px;
+        padding: 24px 12px;
+        border-radius: 8px;
+        text-align: center;
+        font-size: $word-distribution-word-display-font-size;
+        font-weight: 700;
+        box-shadow: $shadow-high;
+    }
+}
+
+/* ===========================================
+//  討論画面
+// ======================================== */
+
+$discussion-screen-timer-font-family: 'Courier New', monospace;
+$discussion-screen-timer-font-color: $accent-color;
+
+.discussion-screen {
+    &__content {
+        @include content-box;
+        margin-bottom: 24px;
+    }
+
+    &__timer {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: $discussion-screen-timer-font-color;
+        text-align: center;
+        margin: 12px 0;
+        font-family: $discussion-screen-timer-font-family;
+    }
+
+    &__timer-controls {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+
+        &-btn {
+            width: auto;
+            min-width: 120px;
+            display: none;
+        }
+    }
+
+    &__players-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    &__player {
+        &-item {
+            background: $content-item-bg-color;
+            border-radius: 6px;
+            padding: 12px;
+            cursor: pointer;
+            box-shadow: $shadow-low;
+
+            &-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-weight: 700;
+            }
+
+            &-name {
+                font-size: 1.2rem;
+            }
+
+            &-score {
+                background: $primary-color;
+                color: $primary-font-color-light;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 0.9rem;
+                font-weight: 700;
+            }
+
+            &-word {
+                background: $primary-color-light;
+                border-radius: 4px;
+                padding: 0 8px;
+                font-weight: 700;
+                color: $primary-color;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                transition: all 0.2s;
+
+                &--show {
+                    max-height: 100px;
+                    margin-top: 12px;
+                    padding: 8px;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+
+/* ===========================================
+//  投票画面
+// ======================================== */
+
+$vote-screen-modal-animation-duration: 0.5s;
+
+.vote-screen {
+    position: relative;
+
+    &__content {
+        &-btn {
+            display: none;
+        }
+    }
+
+    &__modal {
+        @include content-box;
+        box-shadow: $shadow-high;
+        position: absolute;
+        inset: 12px 8px;
+        z-index: 1;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-10px);
+        transition: all 0.3s ease-out;
+
+        &--active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(0);
+        }
+    }
+
+    &__options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    &__option-item {
+        background: $content-item-bg-color;
+        border-radius: 6px;
+        padding: 12px;
+        cursor: pointer;
+        box-shadow: $shadow-low;
+        font-size: 1.2rem;
+        font-weight: 700;
+        transition: all 0.3s ease;
+
+        &--selected {
+            background: $primary-color;
+            color: $primary-font-color-light;
+            box-shadow: $shadow-high;
+        }
+    }
+}
+
+/* ===========================================
+//  投票結果画面
+// ======================================== */
+
+.vote-result-screen {
+    &__accused-player {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 24px;
+        text-align: center;
+    }
+
+    &__wolf-player {
+        font-size: 1.2rem;
+    }
+
+    &__result {
+        &-item {
+            display: none;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+
+            &--success {
+                background: $secondary-color-light;
+                color: $secondary-color;
+            }
+
+            &--failure {
+                background: $accent-color-light;
+                color: $accent-color;
+            }
+        }
+    }
+
+    &__volt-history {
+        @include content-box;
+        margin-bottom: 16px;
+
+        &-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        &-item {
+            background: $content-item-bg-color;
+            border-radius: 6px;
+            padding: 8px 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+        }
+
+        &-arrow {
+            font-size: 1.2rem;
+            color: $accent-color;
+        }
+    }
+}
+
+/* ===========================================
+//  逆転チャンス画面
+// ======================================== */
+
+.wolf-chance-screen {
+    &__form {
+        &-group {
+            margin-bottom: 16px;
+        }
+
+        &-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        &-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: $setup-screen-form-input-border;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: $content-item-bg-color;
+            transition: border-color 0.3s ease;
+
+            &:focus {
+                outline: none;
+                border-color: $primary-color;
+                box-shadow: $shadow-low;
+            }
+        }
+
+        &-text {
+            margin-bottom: 24px;
+            font-size: 0.9rem;
+            font-style: italic;
+            text-align: center;
+        }
+    }
+}
+
+/* ===========================================
+//  逆転チャンス結果画面
+// ======================================== */
+
+.wolf-chance-result-screen {
+    &__result {
+        &-item {
+            display: none;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+
+            &--success {
+                background: $secondary-color-light;
+                color: $secondary-color;
+            }
+
+            &--failure {
+                background: $accent-color-light;
+                color: $accent-color;
+            }
+        }
+    }
+
+    &__villager-word {
+        font-size: 1rem;
+    }
+}
+
+/* ===========================================
+//  ゲーム結果画面
+// ======================================== */
+
+.game-result-screen {
+    &__result {
+        &-item {
+            display: none;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+
+            &--villager-win {
+                background: $secondary-color-light;
+                color: $secondary-color;
+            }
+
+            &--wolf-win {
+                background: $accent-color-light;
+                color: $accent-color;
+            }
+        }
+    }
+
+    &__score {
+        &-board {
+            @include content-box;
+            margin-bottom: 16px;
+        }
+
+        &-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        &-item {
+            background: $content-item-bg-color;
+            border-radius: 6px;
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+        }
+    }
+}
+
+/* ===========================================
+//  最終結果画面
+// ======================================== */
+
+.end-result-screen {
+    &__score {
+        &-board {
+            @include content-box;
+            margin-bottom: 16px;
+        }
+
+        &-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        &-item {
+            background: $content-item-bg-color;
+            border-radius: 6px;
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+        }
+    }
+}
+
+
+/* ダークモード対応 */
+// @media (prefers-color-scheme: dark) {
+//     body {
+//         background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+//         color: #ecf0f1;
+//     }
+
+//     .screen {
+//         background: #2c3e50;
+//         color: #ecf0f1;
+//     }
+
+//     .setup-section,
+//     .word-check-section,
+//     .vote-results,
+//     .score-board {
+//         background: #34495e;
+//     }
+
+//     .form-group__input {
+//         background: #34495e;
+//         color: #ecf0f1;
+//         border-color: #5a6c7d;
+//     }
+
+//     .vote-option {
+//         background: #34495e;
+//         border-color: #5a6c7d;
+//         color: #ecf0f1;
+//     }
+
+//     .vote-option:hover {
+//         background: #2c3e50;
+//     }
+// }
