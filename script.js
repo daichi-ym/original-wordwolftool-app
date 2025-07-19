@@ -267,9 +267,9 @@ function updatePlayerNameInputs() {
     const input = document.createElement('input');
     input.type = 'text';
     input.className = 'setup-screen__form-input setup-screen__form-input--player-name';
-    input.placeholder = '10文字以内で入力してください';
+    input.placeholder = '5文字以内で入力してください';
     input.id = label.htmlFor;
-    input.maxLength = 10;
+    input.maxLength = 5;
 
     playerDiv.appendChild(label);
     playerDiv.appendChild(input);
