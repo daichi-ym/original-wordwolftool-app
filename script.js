@@ -16,6 +16,7 @@ const gameState = {
   // ゲーム進行
   currentScreen: 'setup', // 現在の画面
   currentPlayerIndex: 0, // プレイヤー順次操作画面用
+  roundCount: 0, // ラウンド数
 
   // ワード設定
   villagerWord: '', // 村人ワード
@@ -95,6 +96,9 @@ const elements = {
 
   // モーダルマスク
   modalMask: document.getElementById('modal-mask'),
+
+  // ラウンドカウント
+  roundCount: document.getElementById('round-count'),
 
   // トップページ
   startNewGameBtn: document.getElementById('start-new-game-btn'),
@@ -321,15 +325,18 @@ function registerGameSettings() {
   });
 
   // ワード配布画面への遷移
+  gameState.roundCount = 0;
   startRound();
 }
 
 // スタートラウンド
 function startRound() {
+  gameState.roundCount++;
   assignWolfAndWords();
 
   gameState.currentPlayerIndex = 0;
   showWordDistributionScreen();
+  roundCountAnimation();
 }
 
 // ウルフとワードを決定
@@ -355,6 +362,18 @@ function assignWolfAndWords() {
   gameState.players.forEach(player => {
     player.word = player.index === gameState.wolfIndex ? gameState.wolfWord : gameState.villagerWord;
   });
+}
+
+// ラウンドカウントアニメーション
+function roundCountAnimation() {
+  elements.roundCount.textContent = `Round ${gameState.roundCount}`;
+  elements.modalMask.classList.add('modal-mask--active');
+  elements.roundCount.classList.add('round-count--active');
+
+  setTimeout(() => {
+    elements.modalMask.classList.remove('modal-mask--active');
+    elements.roundCount.classList.remove('round-count--active');
+  }, 2000);
 }
 
 // ===========================================
@@ -940,13 +959,15 @@ function showEndResultScreen() {
 
 // トータルスコアボード表示
 function showTotalScoreBoard() {
+  // 最大スコアを取得
+  const maxScore = Math.max(...gameState.players.map(player => player.score));
   // スコアでソート
   const sortedPlayers = [...gameState.players].sort((a, b) => b.score - a.score);
 
   elements.endResultScoreList.innerHTML = '';
   sortedPlayers.forEach(player => {
-    const itemDiv = document.createElement('li');
-    itemDiv.className = 'end-result-screen__score-item';
+    const listItem = document.createElement('li');
+    listItem.className = 'end-result-screen__score-item';
 
     const playerSpan = document.createElement('span');
     playerSpan.textContent = `${player.name} (ウルフ: ${player.wolfCount}回)`;
@@ -954,10 +975,17 @@ function showTotalScoreBoard() {
     const scoreSpan = document.createElement('span');
     scoreSpan.textContent = `${player.score}点`;
 
-    itemDiv.appendChild(playerSpan);
-    itemDiv.appendChild(scoreSpan);
+    if (player.score === maxScore) {
+      const winnerSpan = document.createElement('span');
+      winnerSpan.className = 'end-result-screen__score-winner';
+      winnerSpan.textContent = '🏆';
+      listItem.appendChild(winnerSpan);
+    }
 
-    elements.endResultScoreList.appendChild(itemDiv);
+    listItem.appendChild(playerSpan);
+    listItem.appendChild(scoreSpan);
+
+    elements.endResultScoreList.appendChild(listItem);
   });
 }
 

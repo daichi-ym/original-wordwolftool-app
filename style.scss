@@ -83,6 +83,20 @@ $mq-breakpoints: (
     }
 }
 
+@keyframes roundCountAnimation {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
 /* ===========================================
 //  COMMON
 // ======================================== */
@@ -159,6 +173,26 @@ $screen-animation-duration: 0.3s;
     &--active {
         opacity: 1;
         pointer-events: auto;
+    }
+}
+
+.round-count {
+    position: fixed;
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+    top: 40%;
+    font-size: 4rem;
+    font-weight: 700;
+    color: $primary-font-color-light;
+    text-shadow: $shadow-high;
+    width: 100%;
+    text-align: center;
+
+    &--active {
+        opacity: 1;
+        pointer-events: auto;
+        animation: roundCountAnimation 2s ease-in-out;
     }
 }
 
@@ -740,8 +774,8 @@ $vote-screen-modal-animation-duration: 0.5s;
             font-weight: 700;
             box-shadow: $shadow-high;
             position: absolute;
-            top: -8px;
-            right: -36px;
+            top: 4px;
+            right: 48px;
         }
     }
 }
@@ -772,6 +806,15 @@ $vote-screen-modal-animation-duration: 0.5s;
             justify-content: space-between;
             font-weight: 700;
             box-shadow: $shadow-low;
+            position: relative;
+        }
+
+        &-winner {
+            font-size: 1.2rem;
+            text-shadow: $shadow-high;
+            position: absolute;
+            top: -4px;
+            left: -16px;
         }
     }
 }
