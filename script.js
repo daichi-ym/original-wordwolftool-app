@@ -361,8 +361,7 @@ function assignWolfAndWords() {
 //  ワード配布画面
 // ===========================================
 
-
-// ワード配布画面への遷移
+// ワード配布画面を表示
 function showWordDistributionScreen() {
   setupWordDistributionScreen();
 
@@ -451,8 +450,8 @@ function createPlayersList() {
   elements.playersList.innerHTML = '';
 
   gameState.players.forEach((player, index) => {
-    const playerDiv = document.createElement('div');
-    playerDiv.className = 'discussion-screen__player-item';
+    const listItem = document.createElement('li');
+    listItem.className = 'discussion-screen__player-item';
 
     const headerDiv = document.createElement('div');
     headerDiv.className = 'discussion-screen__player-item-header';
@@ -471,11 +470,11 @@ function createPlayersList() {
 
     headerDiv.appendChild(nameSpan);
     headerDiv.appendChild(scoreSpan);
-    playerDiv.appendChild(headerDiv);
-    playerDiv.appendChild(wordDiv);
+    listItem.appendChild(headerDiv);
+    listItem.appendChild(wordDiv);
 
     // クリックでワード表示/非表示
-    playerDiv.addEventListener('click', () => {
+    listItem.addEventListener('click', () => {
       const isOpen = wordDiv.classList.contains('discussion-screen__player-item-word--show');
       document.querySelectorAll('.discussion-screen__player-item-word').forEach(wordEl => {
         wordEl.classList.remove('discussion-screen__player-item-word--show');
@@ -486,7 +485,7 @@ function createPlayersList() {
       }
     });
 
-    elements.playersList.appendChild(playerDiv);
+    elements.playersList.appendChild(listItem);
   });
 }
 
@@ -867,24 +866,59 @@ function showScoreBoard() {
 
   elements.scoreList.innerHTML = '';
   sortedPlayers.forEach(player => {
-    const itemDiv = document.createElement('li');
-    itemDiv.className = 'game-result-screen__score-item';
+    const listItem = document.createElement('li');
+    listItem.className = 'game-result-screen__score-item';
+
+    const playerDiv = document.createElement('div');
+    playerDiv.className = 'game-result-screen__score-player';
 
     const playerSpan = document.createElement('span');
     if (player.index === gameState.wolfIndex) {
-      playerSpan.textContent = `${player.name} (ウルフ)`;
+      playerSpan.textContent = `${player.name}`;
     } else {
-      playerSpan.textContent = `${player.name} (村人)`;
+      playerSpan.textContent = `${player.name}`;
     }
-
     const scoreSpan = document.createElement('span');
     scoreSpan.textContent = `${player.score}点`;
 
-    itemDiv.appendChild(playerSpan);
-    itemDiv.appendChild(scoreSpan);
+    const wordDiv = document.createElement('div');
+    if (player.index === gameState.wolfIndex) {
+      wordDiv.className = 'game-result-screen__score-word game-result-screen__score-word-wolf';
+    } else {
+      wordDiv.className = 'game-result-screen__score-word game-result-screen__score-word-villager';
+    }
+    wordDiv.textContent = `${player.word}`;
 
-    elements.scoreList.appendChild(itemDiv);
+    playerDiv.appendChild(playerSpan);
+    playerDiv.appendChild(scoreSpan);
+
+    listItem.appendChild(playerDiv);
+    listItem.appendChild(wordDiv);
+
+    addScoreIcon(player, listItem);
+    elements.scoreList.appendChild(listItem);
   });
+}
+
+// スコアアイコンの追加
+function addScoreIcon(player, listItem) {
+  const plusSpan = document.createElement('span');
+  plusSpan.className = 'game-result-screen__score-plus';
+  plusSpan.textContent = `+1点`;
+
+  if (gameState.isWolfWinner) {
+    if (player.index === gameState.wolfIndex) {
+      // ウルフが勝利かつ自身がウルフの場合
+      listItem.appendChild(plusSpan);
+    }
+  } else {
+    if (player.index !== gameState.wolfIndex) {
+      if (player.votedIndex === gameState.wolfIndex) {
+        // ウルフが敗北かつ自身が村人かつウルフに投票していた場合
+        listItem.appendChild(plusSpan);
+      }
+    }
+  }
 }
 
 // ===========================================
