@@ -17,22 +17,23 @@ const gameState = {
   currentScreen: 'setup', // 現在の画面
   currentPlayerIndex: 0, // プレイヤー順次操作画面用
   roundCount: 0, // ラウンド数
-
+  
   // ワード設定
   villagerWord: '', // 村人ワード
   wolfWord: '', // ウルフワード
-
+  
   // 配役
   wolfIndex: null, // ウルフのインデックス
-
+  
   // タイマー
   timer: null, // タイマーのインターバルID
   timeRemaining: 0, // 残り時間
   isTimerPaused: false, // タイマーの一時停止フラグ
-
+  
   // 投票情報
   votesCount: {}, // 投票数
   accusedPlayer: null, // 最多投票者
+  isVoting: false, // 投票中フラグ
   isVoteEnded: false, // 投票終了フラグ
 
   // ウルフの勝利判定
@@ -96,7 +97,6 @@ const elements = {
 
   // モーダルマスク
   modalMask: document.getElementById('modal-mask'),
-
   // ラウンドカウント
   roundCount: document.getElementById('round-count'),
 
@@ -211,7 +211,7 @@ function setupEventListeners() {
   elements.endDiscussionBtn.addEventListener('click', endDiscussion);
 
   // 投票画面
-  elements.startVoteBtn.addEventListener('click', showVoteModal);
+  elements.startVoteBtn.addEventListener('click', startVote);
   elements.continueDiscussionBtn.addEventListener('click', showDiscussionScreen);
   elements.voteModalSubmitBtn.addEventListener('click', submitVote);
   elements.voteResultBtn.addEventListener('click', isWolfAccused);
@@ -296,6 +296,7 @@ function showScreen(screenName) {
   document.getElementById(`${screenName}-screen`).classList.add('screen--active');
 
   window.scrollTo(0, 0);
+  gameState.currentScreen = screenName;
 }
 
 // ===========================================
@@ -320,7 +321,7 @@ function registerGameSettings() {
       word: '',
       votedIndex: null, // 投票対象のインデックス
       score: 0,
-      wolfCount: 0,
+      wolfCount: 0, // ウルフになった回数
     });
   });
 
@@ -368,11 +369,11 @@ function assignWolfAndWords() {
 function roundCountAnimation() {
   elements.roundCount.textContent = `Round ${gameState.roundCount}`;
   elements.modalMask.classList.add('modal-mask--active');
-  elements.roundCount.classList.add('round-count--active');
+  elements.roundCount.classList.add('modal-mask__round-count--active');
 
   setTimeout(() => {
     elements.modalMask.classList.remove('modal-mask--active');
-    elements.roundCount.classList.remove('round-count--active');
+    elements.roundCount.classList.remove('modal-mask__round-count--active');
   }, 2000);
 }
 
@@ -382,18 +383,14 @@ function roundCountAnimation() {
 
 // ワード配布画面を表示
 function showWordDistributionScreen() {
-  setupWordDistributionScreen();
-
-  gameState.currentScreen = 'word-distribution';
-  showScreen('word-distribution');
-
-  saveGameState();
-}
-
-// 現在のプレイヤーのワードを表示
-function setupWordDistributionScreen() {
   closeWordModal();
 
+  setupWordDistributionScreen();
+  showScreen('word-distribution');
+}
+
+// ワード配布画面のUIを設定
+function setupWordDistributionScreen() {
   const currentPlayer = gameState.players[gameState.currentPlayerIndex];
   if (!currentPlayer) return;
 
@@ -401,6 +398,8 @@ function setupWordDistributionScreen() {
 
   elements.currentPlayerName.textContent = currentPlayerWord;
   elements.wordModalPlayerName.textContent = currentPlayerWord;
+
+  saveGameState();
 }
 
 // ワードモーダルを表示
@@ -430,38 +429,36 @@ function closeWordModal() {
 // 次のプレイヤーへ
 function nextPlayer() {
   gameState.currentPlayerIndex++;
-  setupWordDistributionScreen();
 
-  saveGameState();
+  showWordDistributionScreen();
 }
 
 // ===========================================
 //  討論画面
 // ===========================================
 
-// 討論画面への遷移とUI初期化
+// 討論画面を表示
 function showDiscussionScreen() {
   closeWordModal();
 
   setupDiscussionScreen();
-
-  gameState.currentScreen = 'discussion';
   showScreen('discussion');
-
-  saveGameState();
 }
 
+// 討論画面のUIを設定
 function setupDiscussionScreen() {
   createPlayersList();
   gameState.timeRemaining = gameState.timerMinutes * 60;
   gameState.isTimerPaused = false;
-
+  
   // 討論開始ボタンを表示、タイマーコントロールは非表示
   elements.startTimerBtn.style.display = 'inline-block';
   elements.timerDisplay.textContent = `${gameState.timerMinutes.toString().padStart(2, '0')}:00`;
   elements.pauseTimerBtn.style.display = 'none';
   elements.resumeTimerBtn.style.display = 'none';
   elements.endDiscussionBtn.style.display = 'none';
+
+  saveGameState();
 }
 
 // プレイヤー一覧を作成
@@ -588,9 +585,10 @@ function timerEnd() {
 //  投票画面
 // ===========================================
 
-// 投票情報初期化
+// 投票情報初期化（討論画面からの遷移のみ動作）
 function initVote() {
   gameState.currentPlayerIndex = 0;
+  gameState.isVoting = false;
   gameState.isVoteEnded = false;
 
   // 投票数を0で初期化
@@ -601,7 +599,12 @@ function initVote() {
 
 // 投票開始画面の表示
 function showVoteScreen() {
+  setupVoteScreen();
+  showScreen('vote');
+}
 
+// 投票画面のUIを設定
+function setupVoteScreen() {
   if (!gameState.isVoteEnded) {
     elements.startVoteBtn.style.display = 'inline-block';
     elements.continueDiscussionBtn.style.display = 'inline-block';
@@ -612,24 +615,28 @@ function showVoteScreen() {
     elements.voteResultBtn.style.display = 'inline-block';
   }
 
-  gameState.currentScreen = 'vote';
-  showScreen('vote');
+  // 投票中の場合はモーダルを表示
+  if (gameState.isVoting) {
+    elements.voteModal.classList.add('vote-screen__modal--active');
+    elements.modalMask.classList.add('modal-mask--active');
+  } else {
+    elements.voteModal.classList.remove('vote-screen__modal--active');
+    elements.modalMask.classList.remove('modal-mask--active');
+  }
+
+  const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+  elements.voteModalPlayerName.textContent = `${currentPlayer.name}の投票`;
+
+  createVoteOptions();
+  elements.voteModalSubmitBtn.style.display = 'none';
 
   saveGameState();
 }
 
-// 各プレイヤー投票画面の表示
-function showVoteModal() {
-  const currentPlayer = gameState.players[gameState.currentPlayerIndex];
-  elements.voteModal.classList.add('vote-screen__modal--active');
-  elements.modalMask.classList.add('modal-mask--active');
-  elements.voteModalPlayerName.textContent = `${currentPlayer.name}の投票`;
-
-  createVoteOptions();
-
-  elements.voteModalSubmitBtn.style.display = 'none';
-
-  saveGameState();
+// 投票開始
+function startVote() {
+  gameState.isVoting = true;
+  setupVoteScreen();
 }
 
 // 投票オプション生成
@@ -669,13 +676,7 @@ function submitVote() {
   if (gameState.currentPlayerIndex < gameState.players.length - 1) {
     showVoteNextModalAnimation();
   } else {
-    gameState.isVoteEnded = true;
-    elements.voteModal.classList.remove('vote-screen__modal--active');
-    elements.modalMask.classList.remove('modal-mask--active');
-    elements.startVoteBtn.style.display = 'none';
-    elements.continueDiscussionBtn.style.display = 'none';
-    elements.voteResultBtn.style.display = 'inline-block';
-    saveGameState();
+    endVote();
   }
 }
 
@@ -684,8 +685,15 @@ function showVoteNextModalAnimation() {
   elements.voteModal.classList.remove('vote-screen__modal--active');
   setTimeout(() => {
     gameState.currentPlayerIndex++;
-    showVoteModal();
+    setupVoteScreen();
   }, 500);
+}
+
+// 投票終了
+function endVote() {
+  gameState.isVoting = false;
+  gameState.isVoteEnded = true;
+  setupVoteScreen();
 }
 
 // 投票数をカウントし、ウルフの指名判定を行う
@@ -718,15 +726,20 @@ function isWolfAccused() {
 // ===========================================
 
 // 投票結果画面の表示
-function showVoteResultScreen() {
+function showVoteResultScreen() {  
+  setupVoteResultScreen();
+  showScreen('vote-result');
+}
 
+// 投票結果画面のUIを設定
+function setupVoteResultScreen() {
   // 名前表示
   if (gameState.accusedPlayer) {
     elements.voteResultAccusedPlayer.textContent = `${gameState.accusedPlayer.name}が選ばれました`;
   } else {
     elements.voteResultAccusedPlayer.textContent = '投票が割れました';
   }
-
+  
   // 結果表示の切り替え
   if (gameState.isWolfWinner) {
     elements.voteResultSuccess.style.display = 'none';
@@ -739,15 +752,12 @@ function showVoteResultScreen() {
     elements.wolfChanceBtn.style.display = 'inline-block';
     elements.gameResultBtnVote.style.display = 'none';
   }
-
+  
   elements.voteResultWolfPlayer.forEach(player => {
     player.textContent = `${gameState.players[gameState.wolfIndex].name}がウルフでした`;
   });
-
+  
   createVoteHistory();
-
-  gameState.currentScreen = 'vote-result';
-  showScreen('vote-result');
 
   saveGameState();
 }
@@ -785,10 +795,13 @@ function createVoteHistory() {
 
 // 逆転チャンス画面の表示
 function showWolfChanceScreen() {
-  elements.wolfGuess.value = '';
-
-  gameState.currentScreen = 'wolf-chance';
+  setupWolfChanceScreen();
   showScreen('wolf-chance');
+}
+
+// 逆転チャンス画面のUIを設定
+function setupWolfChanceScreen() {
+  elements.wolfGuess.value = '';
 
   saveGameState();
 }
@@ -813,7 +826,12 @@ function submitWolfGuess() {
 
 // 逆転チャンス結果画面の表示
 function showWolfChanceResultScreen() {
+  setupWolfChanceResultScreen();
+  showScreen('wolf-chance-result');
+}
 
+// 逆転チャンス結果画面のUIを設定
+function setupWolfChanceResultScreen() {
   if (gameState.isWolfWinner) {
     elements.wolfChanceResultSuccess.style.display = 'block';
     elements.wolfChanceResultFailure.style.display = 'none';
@@ -821,13 +839,10 @@ function showWolfChanceResultScreen() {
     elements.wolfChanceResultSuccess.style.display = 'none';
     elements.wolfChanceResultFailure.style.display = 'block';
   }
-
+  
   elements.wolfChanceResultVillagerWord.forEach(word => {
     word.textContent = `村人のワードは${gameState.villagerWord}でした`;
   });
-
-  gameState.currentScreen = 'wolf-chance-result';
-  showScreen('wolf-chance-result');
 
   saveGameState();
 }
@@ -858,8 +873,14 @@ function calculateScore() {
 //  ゲーム結果画面
 // ===========================================
 
+// ゲーム結果画面を表示
 function showGameResult() {
+  setupGameResultScreen();
+  showScreen('game-result');
+}
 
+// ゲーム結果画面のUIを設定
+function setupGameResultScreen() {
   if (gameState.isWolfWinner) {
     elements.gameResultWolf.style.display = 'block';
     elements.gameResultVillager.style.display = 'none';
@@ -867,15 +888,13 @@ function showGameResult() {
     elements.gameResultVillager.style.display = 'block';
     elements.gameResultWolf.style.display = 'none';
   }
-
   // スコアボード表示
   showScoreBoard();
 
-  gameState.currentScreen = 'game-result';
-  showScreen('game-result');
-
   saveGameState();
 }
+
+
 
 // スコアボード表示
 function showScoreBoard() {
@@ -946,14 +965,15 @@ function addScoreIcon(player, listItem) {
 
 // 最終結果画面を表示
 function showEndResultScreen() {
-  // 勝者を決定
-  const sortedPlayers = [...gameState.players].sort((a, b) => b.score - a.score);
-
-  showTotalScoreBoard();
-
-  gameState.currentScreen = 'end-result';
+  setupEndResultScreen();
   showScreen('end-result');
+}
 
+// 最終結果画面のUIを設定
+function setupEndResultScreen() {
+  // トータルスコアボード表示
+  showTotalScoreBoard();
+  
   saveGameState();
 }
 
@@ -975,6 +995,7 @@ function showTotalScoreBoard() {
     const scoreSpan = document.createElement('span');
     scoreSpan.textContent = `${player.score}点`;
 
+    // 勝者マーク表示
     if (player.score === maxScore) {
       const winnerSpan = document.createElement('span');
       winnerSpan.className = 'end-result-screen__score-winner';
