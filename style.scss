@@ -178,11 +178,11 @@ $screen-animation-duration: 0.3s;
     &__round-count {
         opacity: 0;
         position: absolute;
-        top: 30%;
+        top: 40%;
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 10;
-        font-size: 4rem;
+        font-size: 2.5rem;
         font-weight: 700;
         color: $primary-font-color-light;
         text-shadow: $shadow-high;
@@ -808,15 +808,14 @@ $vote-screen-modal-animation-duration: 0.5s;
         }
 
         &-winner {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             text-shadow: $shadow-high;
             position: absolute;
-            top: -4px;
-            left: -16px;
+            top: -6px;
+            left: -20px;
         }
     }
 }
-
 
 /* ダークモード対応 */
 // @media (prefers-color-scheme: dark) {

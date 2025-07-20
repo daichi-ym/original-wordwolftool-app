@@ -30,17 +30,17 @@
                 <button id="continue-game-btn" class="btn btn--primary">つづきから</button>
             </section>
 
-            <!-- 設定画面 -->
+            <!-- ゲーム設定画面 -->
             <section id="setup-screen" class="setup-screen screen">
                 <h2 class="title title--section">ゲーム設定</h2>
                 <div class="setup-screen__content">
                     <h3 class="title title--content">プレイヤー構成</h3>
-                    <div class="setup-screen__form-group">
+                    <form class="setup-screen__form-group" onsubmit="return false;">
                         <label class="setup-screen__form-label" for="total-players">プレイヤー総数:</label>
                         <input type="number" id="total-players" class="setup-screen__form-input" min="3" max="7"
                             value="4">
                         <p class="setup-screen__form-text">※ 村人: 3-6人、ウルフ: 1人（固定）</p>
-                    </div>
+                    </form>
                 </div>
                 <div class="setup-screen__content">
                     <h3 class="title title--content">プレイヤー名</h3>
@@ -48,11 +48,11 @@
                 </div>
                 <div class="setup-screen__content">
                     <h3 class="title title--content">タイマー設定</h3>
-                    <div class="setup-screen__form-group">
+                    <form class="setup-screen__form-group" onsubmit="return false;">
                         <label class="setup-screen__form-label" for="timer-minutes">制限時間（分）:</label>
                         <input type="number" id="timer-minutes" class="setup-screen__form-input" min="1" max="10"
                             value="3">
-                    </div>
+                    </form>
                 </div>
                 <button id="start-game-btn" class="btn btn--primary">ゲーム開始</button>
             </section>
@@ -143,10 +143,10 @@
             <section id="wolf-chance-screen" class="screen">
                 <h2 class="title title--section">逆転チャンス</h2>
                 <p class="wolf-chance-screen__form-text">ウルフは村人のワードを推測してください</p>
-                <div class="wolf-chance-screen__form-group">
+                <form class="wolf-chance-screen__form-group" onsubmit="return false;">
                     <label class="wolf-chance-screen__form-label" for="wolf-guess">推測するワード:</label>
                     <input type="text" id="wolf-guess" class="wolf-chance-screen__form-input" placeholder="ワードを入力">
-                </div>
+                </form>
                 <button id="submit-guess-btn" class="btn btn--primary">回答する</button>
             </section>
 

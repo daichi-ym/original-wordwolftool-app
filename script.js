@@ -175,7 +175,6 @@ async function init() {
   await loadWordSets();
   setupEventListeners();
   setupTopPage();
-  updatePlayerNameInputs();
 }
 
 // ===========================================
@@ -187,7 +186,7 @@ function setupEventListeners() {
   // トップページ
   elements.startNewGameBtn.addEventListener('click', () => {
     initGameState();
-    showScreen('setup');
+    showSetupScreen();
   });
 
   elements.continueGameBtn.addEventListener('click', () => {
@@ -249,9 +248,33 @@ function setupTopPage() {
 }
 
 // ===========================================
-//  プレイヤー名入力フィールド数の更新
+//  画面表示
 // ===========================================
 
+function showScreen(screenName) {
+
+  // すべての画面を非表示
+  document.querySelectorAll('.screen').forEach(screen => {
+    screen.classList.remove('screen--active');
+  });
+
+  // 指定された画面を表示
+  document.getElementById(`${screenName}-screen`).classList.add('screen--active');
+  
+  window.scrollTo(0, 0);
+  gameState.currentScreen = screenName;
+}
+
+// ===========================================
+//  ゲーム設定画面
+// ===========================================
+
+function showSetupScreen() {
+  showScreen('setup');
+  updatePlayerNameInputs();
+}
+
+// プレイヤー名入力フィールド数の更新
 function updatePlayerNameInputs() {
   const totalPlayers = parseInt(elements.totalPlayers.value);
 
@@ -260,8 +283,9 @@ function updatePlayerNameInputs() {
 
   // 新しい入力フィールドを作成
   for (let i = 0; i < totalPlayers; i++) {
-    const playerDiv = document.createElement('div');
-    playerDiv.className = 'setup-screen__form-group';
+    const playerForm = document.createElement('form');
+    playerForm.className = 'setup-screen__form-group';
+    playerForm.onsubmit = (e) => {e.preventDefault();};
 
     const label = document.createElement('label');
     label.className = 'setup-screen__form-label';
@@ -275,28 +299,10 @@ function updatePlayerNameInputs() {
     input.id = label.htmlFor;
     input.maxLength = 5;
 
-    playerDiv.appendChild(label);
-    playerDiv.appendChild(input);
-    elements.playerNamesContainer.appendChild(playerDiv);
+    playerForm.appendChild(label);
+    playerForm.appendChild(input);
+    elements.playerNamesContainer.appendChild(playerForm);
   }
-}
-
-// ===========================================
-//  画面表示
-// ===========================================
-
-function showScreen(screenName) {
-
-  // すべての画面を非表示
-  document.querySelectorAll('.screen').forEach(screen => {
-    screen.classList.remove('screen--active');
-  });
-
-  // 指定された画面を表示
-  document.getElementById(`${screenName}-screen`).classList.add('screen--active');
-
-  window.scrollTo(0, 0);
-  gameState.currentScreen = screenName;
 }
 
 // ===========================================
@@ -311,7 +317,7 @@ function registerGameSettings() {
   // プレイヤー情報を収集
   const playerNameInputs = document.querySelectorAll('.setup-screen__form-input--player-name');
   gameState.players = []; // 一旦クリア
-
+  
   // プレイヤー情報を登録
   playerNameInputs.forEach((input, index) => {
     const name = input.value.trim() || `プレイヤー${index + 1}`;
