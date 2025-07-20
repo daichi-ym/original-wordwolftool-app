@@ -385,8 +385,8 @@ function roundCountAnimation() {
 function showWordDistributionScreen() {
   closeWordModal();
 
-  setupWordDistributionScreen();
   showScreen('word-distribution');
+  setupWordDistributionScreen();
 }
 
 // ワード配布画面のUIを設定
@@ -441,8 +441,8 @@ function nextPlayer() {
 function showDiscussionScreen() {
   closeWordModal();
 
-  setupDiscussionScreen();
   showScreen('discussion');
+  setupDiscussionScreen();
 }
 
 // 討論画面のUIを設定
@@ -599,8 +599,8 @@ function initVote() {
 
 // 投票開始画面の表示
 function showVoteScreen() {
-  setupVoteScreen();
   showScreen('vote');
+  setupVoteScreen();
 }
 
 // 投票画面のUIを設定
@@ -727,8 +727,8 @@ function isWolfAccused() {
 
 // 投票結果画面の表示
 function showVoteResultScreen() {  
-  setupVoteResultScreen();
   showScreen('vote-result');
+  setupVoteResultScreen();
 }
 
 // 投票結果画面のUIを設定
@@ -795,8 +795,8 @@ function createVoteHistory() {
 
 // 逆転チャンス画面の表示
 function showWolfChanceScreen() {
-  setupWolfChanceScreen();
   showScreen('wolf-chance');
+  setupWolfChanceScreen();
 }
 
 // 逆転チャンス画面のUIを設定
@@ -875,8 +875,8 @@ function calculateScore() {
 
 // ゲーム結果画面を表示
 function showGameResult() {
-  setupGameResultScreen();
   showScreen('game-result');
+  setupGameResultScreen();
 }
 
 // ゲーム結果画面のUIを設定
@@ -965,8 +965,8 @@ function addScoreIcon(player, listItem) {
 
 // 最終結果画面を表示
 function showEndResultScreen() {
-  setupEndResultScreen();
   showScreen('end-result');
+  setupEndResultScreen();
 }
 
 // 最終結果画面のUIを設定
