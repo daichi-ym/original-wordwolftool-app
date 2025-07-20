@@ -488,7 +488,7 @@ function createPlayersList() {
 
     const wordDiv = document.createElement('div');
     wordDiv.className = 'discussion-screen__player-item-word';
-    wordDiv.textContent = `ワード: ${player.word}`;
+    wordDiv.textContent = `${player.word}`;
 
     headerDiv.appendChild(nameSpan);
     headerDiv.appendChild(scoreSpan);

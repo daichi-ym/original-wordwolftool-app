@@ -6,8 +6,6 @@ $primary-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
 $primary-color: #3498db; // メインカラー
 $primary-color-light: #e8f4fd; // メインカラーのライト
-$secondary-color: #27ae60; // セカンダリーカラー
-$secondary-color-light: #d4edda; // セカンダリーカラーのライト
 $accent-color: #e74c3c; // アクセントカラー
 $accent-color-light: #f8d7da; // アクセントカラーのライト
 
@@ -50,7 +48,7 @@ $mq-breakpoints: (
 @mixin content-box {
     background: $content-bg-color;
     border-radius: 12px;
-    padding: 24px;
+    padding: 24px 16px;
     border-left: 4px solid $primary-color;
 }
 
@@ -149,7 +147,7 @@ $screen-animation-duration: 0.3s;
     display: none;
     background: $screen-bg-color;
     border-radius: 16px;
-    padding: 32px 16px;
+    padding: 32px;
     box-shadow: $shadow-high;
     flex: 1 1 auto;
     min-height: 100%;
@@ -209,12 +207,12 @@ $screen-animation-duration: 0.3s;
     }
 
     &--section {
-        font-size: 1.4rem;
+        font-size: 1.6rem;
         margin-bottom: 24px;
     }
 
     &--content {
-        font-size: 1.2rem;
+        font-size: 1.4rem;
         margin-bottom: 16px;
     }
 }
@@ -231,9 +229,9 @@ $btn-secondary-font-color: #fff;
 $btn-secondary-bg-color: linear-gradient(135deg, #95a5a6, #7f8c8d);
 $btn-secondary-bg-hover-color: linear-gradient(135deg, #7f8c8d, #6c7b7d);
 
-$btn-danger-font-color: #fff;
-$btn-danger-bg-color: linear-gradient(135deg, #e74c3c, #c0392b);
-$btn-danger-bg-hover-color: linear-gradient(135deg, #c0392b, #a93226);
+$btn-accent-font-color: #fff;
+$btn-accent-bg-color: linear-gradient(135deg, #e74c3c, #c0392b);
+$btn-accent-bg-hover-color: linear-gradient(135deg, #c0392b, #a93226);
 
 // ボタン無効化
 @mixin btn-disabled {
@@ -251,7 +249,7 @@ $btn-danger-bg-hover-color: linear-gradient(135deg, #c0392b, #a93226);
 }
 
 .btn {
-    padding: 12px 24px;
+    padding: 12px;
     border-radius: 8px;
     font-size: 1.2rem;
     font-weight: 700;
@@ -289,12 +287,12 @@ $btn-danger-bg-hover-color: linear-gradient(135deg, #c0392b, #a93226);
         }
     }
 
-    &--danger {
-        background: $btn-danger-bg-color;
-        color: $btn-danger-font-color;
+    &--accent {
+        background: $btn-accent-bg-color;
+        color: $btn-accent-font-color;
 
         &:hover {
-            background: $btn-danger-bg-hover-color;
+            background: $btn-accent-bg-hover-color;
             @include btn-hover;
         }
 
@@ -454,10 +452,6 @@ $discussion-screen-timer-font-color: $accent-color;
                 font-weight: 700;
             }
 
-            &-name {
-                font-size: 1.2rem;
-            }
-
             &-score {
                 background: $primary-color;
                 color: $primary-font-color-light;
@@ -471,8 +465,10 @@ $discussion-screen-timer-font-color: $accent-color;
                 background: $primary-color-light;
                 border-radius: 4px;
                 padding: 0 8px;
+                font-size: 1.2rem;
                 font-weight: 700;
                 color: $primary-color;
+                text-align: center;
                 max-height: 0;
                 overflow: hidden;
                 opacity: 0;
@@ -568,14 +564,14 @@ $vote-screen-modal-animation-duration: 0.5s;
             font-size: 1.6rem;
             font-weight: 700;
             margin-bottom: 24px;
-            padding: 24px;
+            padding: 24px 16px;
             border-radius: 12px;
             text-align: center;
             box-shadow: $shadow-high;
 
             &--success {
-                background: $secondary-color-light;
-                color: $secondary-color;
+                background: $primary-color-light;
+                color: $primary-color;
             }
 
             &--failure {
@@ -673,8 +669,8 @@ $vote-screen-modal-animation-duration: 0.5s;
             box-shadow: $shadow-high;
 
             &--success {
-                background: $secondary-color-light;
-                color: $secondary-color;
+                background: $primary-color-light;
+                color: $primary-color;
             }
 
             &--failure {
@@ -706,8 +702,8 @@ $vote-screen-modal-animation-duration: 0.5s;
             box-shadow: $shadow-high;
 
             &--villager-win {
-                background: $secondary-color-light;
-                color: $secondary-color;
+                background: $primary-color-light;
+                color: $primary-color;
             }
 
             &--wolf-win {
@@ -758,21 +754,22 @@ $vote-screen-modal-animation-duration: 0.5s;
             }
 
             &-villager {
-                background: $secondary-color-light;
-                color: $secondary-color;
+                background: $primary-color-light;
+                color: $primary-color;
             }
         }
 
         &-plus {
-            background: $primary-color;
-            color: $primary-font-color-light;
+            // background: $primary-bg-color;
+            color: rgba($accent-color, 0.7);
             padding: 4px;
             border-radius: 4px;
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 700;
-            box-shadow: $shadow-high;
+            text-shadow: $shadow-high;
+            // box-shadow: $shadow-high;
             position: absolute;
-            top: 4px;
+            top: 2px;
             right: 48px;
         }
     }
@@ -808,11 +805,11 @@ $vote-screen-modal-animation-duration: 0.5s;
         }
 
         &-winner {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             text-shadow: $shadow-high;
             position: absolute;
             top: -6px;
-            left: -20px;
+            left: -16px;
         }
     }
 }

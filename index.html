@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="ワードウルフ進行支援ツール">
-    <title>みんなでワードウルフ</title>
+    <title>みんなのワードウルフ</title>
     <!-- <link rel="icon" href="favicon.ico"> -->
     <!-- reset.css ress -->
     <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
@@ -25,7 +25,7 @@
 
             <!-- トップページ -->
             <section id="top-page-screen" class="top-page-screen screen  screen--active">
-                <h1 class="top-page__title title title--main">みんなでワードウルフ</h1>
+                <h1 class="top-page__title title title--main">みんなのワードウルフ</h1>
                 <button id="start-new-game-btn" class="btn btn--primary">はじめから</button>
                 <button id="continue-game-btn" class="btn btn--primary">つづきから</button>
             </section>
@@ -63,7 +63,7 @@
                 <h2 class="title title--section">ワード配布</h2>
                 <div id="current-player-info">
                     <h3 id="current-player-name" class="title title--content"></h3>
-                    <button id="reveal-word-btn" class="btn btn--danger">ワードを確認</button>
+                    <button id="reveal-word-btn" class="btn btn--accent">ワードを確認</button>
                 </div>
 
                 <div id="word-modal" class="word-distribution-screen__modal">
@@ -72,7 +72,7 @@
                     <button id="next-player-btn"
                         class="word-distribution-screen__modal-btn btn btn--primary">次のプレイヤーへ</button>
                     <button id="show-discussion-btn"
-                        class="word-distribution-screen__modal-btn btn btn--primary">討論画面へ</button>
+                        class="word-distribution-screen__modal-btn btn btn--accent">討論画面へ</button>
                 </div>
             </section>
 
@@ -88,7 +88,7 @@
                         <button id="resume-timer-btn"
                             class="discussion-screen__timer-controls-btn btn btn--secondary">再開</button>
                         <button id="end-discussion-btn"
-                            class="discussion-screen__timer-controls-btn btn btn--danger">討論終了</button>
+                            class="discussion-screen__timer-controls-btn btn btn--accent">討論終了</button>
                     </div>
                 </div>
                 <div class="discussion-screen__content">
@@ -103,7 +103,7 @@
                 <h2 class="title title--section">投票</h2>
                 <div class="vote-screen__content">
                     <button id="start-vote-btn" class="vote-screen__content-btn btn btn--primary">投票開始</button>
-                    <button id="vote-result-btn" class="vote-screen__content-btn btn btn--danger">投票結果へ</button>
+                    <button id="vote-result-btn" class="vote-screen__content-btn btn btn--accent">投票結果へ</button>
                     <button id="continue-discussion-btn"
                         class="vote-screen__content-btn btn btn--secondary">再討論</button>
                 </div>
@@ -135,8 +135,8 @@
                     <h3 class="title title--content">投票履歴</h3>
                     <ul id="vote-result-volt-history-list" class="vote-result-screen__volt-history-list"></ul>
                 </div>
-                <button id="wolf-chance-btn" class="btn btn--primary">ウルフ逆転チャンス</button>
-                <button id="game-result-btn-vote" class="btn btn--secondary">ゲーム結果へ</button>
+                <button id="wolf-chance-btn" class="btn btn--accent">ウルフ逆転チャンス</button>
+                <button id="game-result-btn-vote" class="btn btn--primary">ゲーム結果へ</button>
             </section>
 
             <!-- 逆転チャンス画面 -->
