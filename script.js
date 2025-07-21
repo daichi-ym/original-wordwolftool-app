@@ -31,8 +31,7 @@ const gameState = {
   isTimerPaused: false, // タイマーの一時停止フラグ
   
   // 投票情報
-  votesCount: {}, // 投票数
-  accusedPlayer: null, // 最多投票者
+  accusedPlayer: [], // 最多投票者
   isVoting: false, // 投票中フラグ
   isVoteEnded: false, // 投票終了フラグ
 
@@ -326,6 +325,7 @@ function registerGameSettings() {
       name: name,
       word: '',
       votedIndex: null, // 投票対象のインデックス
+      votesReceived: 0,      // 投票された数
       score: 0,
       wolfCount: 0, // ウルフになった回数
     });
@@ -598,7 +598,7 @@ function initVote() {
   gameState.isVoteEnded = false;
 
   // 投票数を0で初期化
-  gameState.players.forEach((p, idx) => { gameState.votesCount[idx] = 0; });
+  gameState.players.forEach((player) => { player.votesReceived = 0; });
 
   showVoteScreen();
 }
@@ -648,14 +648,14 @@ function startVote() {
 // 投票オプション生成
 function createVoteOptions() {
   elements.voteModalOptions.innerHTML = '';
-  gameState.players.forEach((player, idx) => {
-    if (idx === gameState.currentPlayerIndex) return; // 自分以外
+  gameState.players.forEach((player) => {
+    if (player.index === gameState.currentPlayerIndex) return; // 自分以外
     const optionDiv = document.createElement('li');
     optionDiv.className = 'vote-screen__option-item';
     optionDiv.textContent = player.name;
-    optionDiv.dataset.playerIndex = idx;
+    optionDiv.dataset.playerIndex = player.index;
     optionDiv.addEventListener('click', () => {
-      selectVoteOption(optionDiv, idx);
+      selectVoteOption(optionDiv, player.index);
     });
     elements.voteModalOptions.appendChild(optionDiv);
   });
@@ -669,14 +669,13 @@ function selectVoteOption(optionElement, playerIndex) {
   optionElement.classList.add('vote-screen__option-item--selected');
   elements.voteModalSubmitBtn.style.display = 'inline-block';
   // 一時的に選択indexを保存
-  elements.voteModalSubmitBtn.dataset.selectedIndex = playerIndex;
+  gameState.players[gameState.currentPlayerIndex].votedIndex = playerIndex;
 }
 
 // 投票ボタン押下
 function submitVote() {
-  const selectedIndex = parseInt(elements.voteModalSubmitBtn.dataset.selectedIndex);
-  gameState.votesCount[selectedIndex]++;
-  gameState.players[gameState.currentPlayerIndex].votedIndex = selectedIndex;
+  const selectedIndex = gameState.players[gameState.currentPlayerIndex].votedIndex;
+  gameState.players[selectedIndex].votesReceived++;
 
   // 次のプレイヤーへ
   if (gameState.currentPlayerIndex < gameState.players.length - 1) {
@@ -707,15 +706,13 @@ function isWolfAccused() {
   gameState.accusedPlayer = null;
 
   // 最多得票者を特定
-  const maxVotes = Math.max(...Object.values(gameState.votesCount));
-  const maxVotePlayers = Object.keys(gameState.votesCount).filter(index => gameState.votesCount[index] === maxVotes);
+  const maxVotes = Math.max(...gameState.players.map(player => player.votesReceived));
+  gameState.accusedPlayer = gameState.players.filter(player => player.votesReceived === maxVotes);
 
   // 最多得票者が1人の場合
-  if (maxVotePlayers.length === 1) {
-    gameState.accusedPlayer = gameState.players[maxVotePlayers[0]];
-
+  if (gameState.accusedPlayer.length === 1) {
     // ウルフの指名判定
-    if (gameState.accusedPlayer.index === gameState.wolfIndex) {
+    if (gameState.accusedPlayer[0].index === gameState.wolfIndex) {
       gameState.isWolfWinner = false; // ウルフが指名された場合
     } else {
       gameState.isWolfWinner = true; // ウルフが指名されなかった場合
@@ -740,8 +737,8 @@ function showVoteResultScreen() {
 // 投票結果画面のUIを設定
 function setupVoteResultScreen() {
   // 名前表示
-  if (gameState.accusedPlayer) {
-    elements.voteResultAccusedPlayer.textContent = `${gameState.accusedPlayer.name}が選ばれました`;
+  if (gameState.accusedPlayer.length === 1) {
+    elements.voteResultAccusedPlayer.textContent = `${gameState.accusedPlayer[0].name}が選ばれました`;
   } else {
     elements.voteResultAccusedPlayer.textContent = '投票が割れました';
   }
@@ -772,7 +769,7 @@ function setupVoteResultScreen() {
 function createVoteHistory() {
   elements.voteResultVoltHistoryList.innerHTML = '';
 
-  gameState.players.forEach((player, idx) => {
+  gameState.players.forEach((player) => {
     const itemDiv = document.createElement('li');
     itemDiv.className = 'vote-result-screen__volt-history-item';
 
@@ -786,7 +783,7 @@ function createVoteHistory() {
 
     const votedPlayerSpan = document.createElement('span');
     votedPlayerSpan.className = 'vote-result-screen__volt-history-player';
-    votedPlayerSpan.textContent = gameState.players[gameState.players[idx].votedIndex].name;
+    votedPlayerSpan.textContent = gameState.players[player.votedIndex].name;
 
     itemDiv.appendChild(playerSpan);
     itemDiv.appendChild(arrowSpan);

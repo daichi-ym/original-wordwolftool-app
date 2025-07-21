@@ -179,8 +179,10 @@ $screen-animation-duration: 0.3s;
         top: 40%;
         left: 50%;
         transform: translate(-50%, -50%);
+        width: 100%;
+        text-align: center;
         z-index: 10;
-        font-size: 2.5rem;
+        font-size: 4rem;
         font-weight: 700;
         color: $primary-font-color-light;
         text-shadow: $shadow-high;
@@ -366,7 +368,7 @@ $word-distribution-modal-animation-duration: 0.5s;
         @include content-box;
         box-shadow: $shadow-high;
         position: absolute;
-        inset: 12px 8px;
+        inset: 24px 8px;
         z-index: 10;
         opacity: 0;
         pointer-events: none;
@@ -411,11 +413,10 @@ $discussion-screen-timer-font-color: $accent-color;
     }
 
     &__timer {
-        font-size: 2.5rem;
+        font-size: 3rem;
         font-weight: 700;
         color: $discussion-screen-timer-font-color;
         text-align: center;
-        margin: 12px 0;
         font-family: $discussion-screen-timer-font-family;
     }
 
@@ -504,7 +505,7 @@ $vote-screen-modal-animation-duration: 0.5s;
         @include content-box;
         box-shadow: $shadow-high;
         position: absolute;
-        inset: 12px 8px;
+        inset: 24px 8px;
         z-index: 10;
         opacity: 0;
         pointer-events: none;

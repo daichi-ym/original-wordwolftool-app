@@ -122,8 +122,10 @@ ul {
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
   z-index: 10;
-  font-size: 2.5rem;
+  font-size: 4rem;
   font-weight: 700;
   color: #fff;
   text-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
@@ -270,7 +272,7 @@ ul {
   border-left: 4px solid #3498db;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   position: absolute;
-  inset: 12px 8px;
+  inset: 24px 8px;
   z-index: 10;
   opacity: 0;
   pointer-events: none;
@@ -308,11 +310,10 @@ ul {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 .discussion-screen__timer {
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 700;
   color: #e74c3c;
   text-align: center;
-  margin: 12px 0;
   font-family: "Courier New", monospace;
 }
 .discussion-screen__timer-controls {
@@ -387,7 +388,7 @@ ul {
   border-left: 4px solid #3498db;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   position: absolute;
-  inset: 12px 8px;
+  inset: 24px 8px;
   z-index: 10;
   opacity: 0;
   pointer-events: none;
