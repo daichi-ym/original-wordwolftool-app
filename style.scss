@@ -51,7 +51,7 @@ $mq-breakpoints: (
 @mixin content-box {
     background: $content-bg-color;
     border-radius: 12px;
-    padding: 24px 16px;
+    padding: 32px 16px;
     border-left: 4px solid $primary-color;
 }
 
@@ -150,7 +150,7 @@ $screen-animation-duration: 0.3s;
     display: none;
     background: $screen-bg-color;
     border-radius: 16px;
-    padding: 32px;
+    padding: 64px 32px;
     box-shadow: $shadow-high;
     flex: 1 1 auto;
     min-height: 100%;
@@ -211,17 +211,17 @@ $screen-animation-duration: 0.3s;
         font-size: 2rem;
         font-family: $title-font;
         color: $title-main-color;
-        margin: 48px 0;
+        margin: 0 0 48px;
     }
 
     &--section {
         font-size: 1.6rem;
-        margin-bottom: 24px;
+        margin-bottom: 32px;
     }
 
     &--content {
         font-size: 1.4rem;
-        margin-bottom: 16px;
+        margin-bottom: 24px;
     }
 }
 

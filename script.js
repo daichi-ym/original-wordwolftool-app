@@ -194,7 +194,16 @@ function setupEventListeners() {
   });
 
   // 設定画面
-  elements.totalPlayers.addEventListener('change', updatePlayerNameInputs);
+
+  elements.totalPlayers.addEventListener('change', (e) => {
+    validateNumberInput(e);
+    updatePlayerNameInputs();
+  });
+
+  elements.timerMinutes.addEventListener('change', (e) => {
+    validateNumberInput(e);
+  });
+
   elements.startGameBtn.addEventListener('click', registerGameSettings);
 
   // ワード配布画面
@@ -273,6 +282,23 @@ function showSetupScreen() {
   updatePlayerNameInputs();
 }
 
+function validateNumberInput(e) {
+  const input = e.target; // イベントの対象要素（input）
+  const min = parseInt(input.min, 10); // inputのmin属性を取得
+  const max = parseInt(input.max, 10); // inputのmax属性を取得
+  let value = parseInt(input.value, 10); // inputのvalue属性を取得
+
+  if (isNaN(value)) { // 数値でない場合はボタンを無効化
+    elements.startGameBtn.disabled = true;
+    return;
+  } else { // 数値である場合はボタンを有効化
+    elements.startGameBtn.disabled = false;
+  }
+
+  if (value < min) input.value = min; // 最小値未満の場合は最小値にする
+  if (value > max) input.value = max; // 最大値より大きい場合は最大値にする
+}
+
 // プレイヤー名入力フィールド数の更新
 function updatePlayerNameInputs() {
   const totalPlayers = parseInt(elements.totalPlayers.value);
@@ -319,7 +345,7 @@ function registerGameSettings() {
   
   // プレイヤー情報を登録
   playerNameInputs.forEach((input, index) => {
-    const name = input.value.trim() || `プレイヤー${index + 1}`;
+    const name = `${input.value.trim()}` || `プレイヤー${index + 1}`;
     gameState.players.push({
       index: index,
       name: name,

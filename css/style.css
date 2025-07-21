@@ -91,7 +91,7 @@ ul {
   display: none;
   background: #fff;
   border-radius: 16px;
-  padding: 32px;
+  padding: 64px 32px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   flex: 1 1 auto;
   min-height: 100%;
@@ -149,15 +149,15 @@ ul {
   font-size: 2rem;
   font-family: "Yusei Magic", sans-serif;
   color: #2c3e50;
-  margin: 48px 0;
+  margin: 0 0 48px;
 }
 .title--section {
   font-size: 1.6rem;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 .title--content {
   font-size: 1.4rem;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 /* ===========================================
@@ -229,7 +229,7 @@ ul {
 .setup-screen__content {
   background: #f8f9fa;
   border-radius: 12px;
-  padding: 24px 16px;
+  padding: 32px 16px;
   border-left: 4px solid #3498db;
   margin-bottom: 24px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -271,7 +271,7 @@ ul {
 .word-distribution-screen__modal {
   background: #f8f9fa;
   border-radius: 12px;
-  padding: 24px 16px;
+  padding: 32px 16px;
   border-left: 4px solid #3498db;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   position: absolute;
@@ -307,7 +307,7 @@ ul {
 .discussion-screen__content {
   background: #f8f9fa;
   border-radius: 12px;
-  padding: 24px 16px;
+  padding: 32px 16px;
   border-left: 4px solid #3498db;
   margin-bottom: 24px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -388,7 +388,7 @@ ul {
 .vote-screen__modal {
   background: #f8f9fa;
   border-radius: 12px;
-  padding: 24px 16px;
+  padding: 32px 16px;
   border-left: 4px solid #3498db;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   position: absolute;
@@ -458,7 +458,7 @@ ul {
 .vote-result-screen__volt-history {
   background: #f8f9fa;
   border-radius: 12px;
-  padding: 24px 16px;
+  padding: 32px 16px;
   border-left: 4px solid #3498db;
   margin-bottom: 16px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -565,7 +565,7 @@ ul {
 .game-result-screen__score-board {
   background: #f8f9fa;
   border-radius: 12px;
-  padding: 24px 16px;
+  padding: 32px 16px;
   border-left: 4px solid #3498db;
   margin-bottom: 16px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -621,7 +621,7 @@ ul {
 .end-result-screen__score-board {
   background: #f8f9fa;
   border-radius: 12px;
-  padding: 24px 16px;
+  padding: 32px 16px;
   border-left: 4px solid #3498db;
   margin-bottom: 16px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
