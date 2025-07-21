@@ -2,7 +2,10 @@
 //  UTILITIES
 // ===========================================
 
-$primary-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+$primary-font: 'Zen Maru Gothic', sans-serif;
+$title-font: 'Yusei Magic', sans-serif;
+$round-count-font: 'Yusei Magic', sans-serif;
+$discussion-screen-timer-font: "DotGothic16", sans-serif;
 
 $primary-color: #3498db; // メインカラー
 $primary-color-light: #e8f4fd; // メインカラーのライト
@@ -184,9 +187,11 @@ $screen-animation-duration: 0.3s;
         z-index: 10;
         font-size: 4rem;
         font-weight: 700;
+        font-family: $round-count-font;
+        letter-spacing: .1em;
         color: $primary-font-color-light;
         text-shadow: $shadow-high;
-    
+
         &--active {
             pointer-events: auto;
             animation: roundCountAnimation 2s ease-in-out;
@@ -203,7 +208,8 @@ $screen-animation-duration: 0.3s;
     font-weight: 700;
 
     &--main {
-        font-size: 1.6rem;
+        font-size: 2rem;
+        font-family: $title-font;
         color: $title-main-color;
         margin: 48px 0;
     }
@@ -402,7 +408,6 @@ $word-distribution-modal-animation-duration: 0.5s;
 //  討論画面
 // ======================================== */
 
-$discussion-screen-timer-font-family: 'Courier New', monospace;
 $discussion-screen-timer-font-color: $accent-color;
 
 .discussion-screen {
@@ -413,11 +418,12 @@ $discussion-screen-timer-font-color: $accent-color;
     }
 
     &__timer {
-        font-size: 3rem;
+        font-size: 2.5rem;
         font-weight: 700;
         color: $discussion-screen-timer-font-color;
         text-align: center;
-        font-family: $discussion-screen-timer-font-family;
+        font-family: $discussion-screen-timer-font;
+        letter-spacing: .1em;
     }
 
     &__timer-controls {

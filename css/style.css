@@ -56,7 +56,7 @@ body {
   font-size: 1rem;
   color: #2c3e50;
   line-height: 1.5;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Zen Maru Gothic", sans-serif;
   background: #eee;
 }
 
@@ -127,6 +127,8 @@ ul {
   z-index: 10;
   font-size: 4rem;
   font-weight: 700;
+  font-family: "Yusei Magic", sans-serif;
+  letter-spacing: 0.1em;
   color: #fff;
   text-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
@@ -144,7 +146,8 @@ ul {
   font-weight: 700;
 }
 .title--main {
-  font-size: 1.6rem;
+  font-size: 2rem;
+  font-family: "Yusei Magic", sans-serif;
   color: #2c3e50;
   margin: 48px 0;
 }
@@ -310,11 +313,12 @@ ul {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 .discussion-screen__timer {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 700;
   color: #e74c3c;
   text-align: center;
-  font-family: "Courier New", monospace;
+  font-family: "DotGothic16", sans-serif;
+  letter-spacing: 0.1em;
 }
 .discussion-screen__timer-controls {
   display: flex;
