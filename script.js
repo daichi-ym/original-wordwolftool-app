@@ -194,16 +194,13 @@ function setupEventListeners() {
   });
 
   // 設定画面
-
   elements.totalPlayers.addEventListener('change', (e) => {
     validateNumberInput(e);
     updatePlayerNameInputs();
   });
-
   elements.timerMinutes.addEventListener('change', (e) => {
     validateNumberInput(e);
   });
-
   elements.startGameBtn.addEventListener('click', registerGameSettings);
 
   // ワード配布画面
@@ -242,20 +239,6 @@ function setupEventListeners() {
 }
 
 // ===========================================
-//  トップページ
-// ===========================================
-
-// トップページのセットアップ
-function setupTopPage() {
-  // ゲーム状態が保存されていれば、続きからボタンを表示
-  if (localStorage.getItem('wordWolfGameState')) {
-    elements.continueGameBtn.disabled = false;
-  } else {
-    elements.continueGameBtn.disabled = true;
-  }
-}
-
-// ===========================================
 //  画面表示
 // ===========================================
 
@@ -271,6 +254,20 @@ function showScreen(screenName) {
   
   window.scrollTo(0, 0);
   gameState.currentScreen = screenName;
+}
+
+// ===========================================
+//  トップページ
+// ===========================================
+
+// トップページのセットアップ
+function setupTopPage() {
+  // ゲーム状態が保存されていれば、続きからボタンを表示
+  if (localStorage.getItem('wordWolfGameState')) {
+    elements.continueGameBtn.disabled = false;
+  } else {
+    elements.continueGameBtn.disabled = true;
+  }
 }
 
 // ===========================================
@@ -345,7 +342,7 @@ function registerGameSettings() {
   
   // プレイヤー情報を登録
   playerNameInputs.forEach((input, index) => {
-    const name = `${input.value.trim()}` || `プレイヤー${index + 1}`;
+    const name = input.value.trim() || `プレイヤー${index + 1}`;
     gameState.players.push({
       index: index,
       name: name,
@@ -729,7 +726,7 @@ function endVote() {
 
 // 投票数をカウントし、ウルフの指名判定を行う
 function isWolfAccused() {
-  gameState.accusedPlayer = null;
+  gameState.accusedPlayer = [];
 
   // 最多得票者を特定
   const maxVotes = Math.max(...gameState.players.map(player => player.votesReceived));
