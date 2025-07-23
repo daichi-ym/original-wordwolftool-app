@@ -261,6 +261,90 @@ ul {
   font-size: 0.9rem;
   font-style: italic;
 }
+.setup-screen__form-toggle {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #ccc;
+  border-radius: 24px;
+  background: #fff;
+  overflow: hidden;
+  width: 220px;
+  height: 48px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  margin: 0 auto;
+}
+.setup-screen__form-toggle-input {
+  display: none;
+}
+.setup-screen__form-toggle-label {
+  flex: 1 1 0;
+  text-align: center;
+  line-height: 48px;
+  z-index: 1;
+  cursor: pointer;
+  font-weight: 700;
+  color: #888;
+  transition: color 0.3s;
+}
+.setup-screen__form-toggle-label--active {
+  color: #fff;
+}
+.setup-screen__form-toggle-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  border-radius: 24px;
+  transition: left 0.3s;
+}
+.setup-screen__form-toggle-slider--tamed {
+  background: #3498db;
+  left: 0;
+}
+.setup-screen__form-toggle-slider--wild {
+  background: #e74c3c;
+  left: 50%;
+}
+
+/* ===========================================
+//  ワードセット画面
+// ======================================== */
+.word-set-screen__form-label {
+  display: block;
+  margin: 16px 0 8px;
+  font-weight: 700;
+}
+.word-set-screen__form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fff;
+  transition: border-color 0.3s ease;
+}
+.word-set-screen__form-input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+.word-set-screen__form-error-text {
+  opacity: 0;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  font-weight: 700;
+  color: #e74c3c;
+  transition: all 0.3s;
+}
+.word-set-screen__form-error-text--active {
+  opacity: 1;
+}
 
 /* ===========================================
 //  ワード配布画面
@@ -602,6 +686,10 @@ ul {
 .game-result-screen__score-word-villager {
   background: #e8f4fd;
   color: #3498db;
+}
+.game-result-screen__score-word-master {
+  background: #ccc;
+  color: #888;
 }
 .game-result-screen__score-plus {
   color: rgba(231, 76, 60, 0.7);

@@ -10,7 +10,9 @@
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Yusei+Magic&family=Zen+Maru+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Yusei+Magic&family=Zen+Maru+Gothic:wght@400;700;900&display=swap"
+        rel="stylesheet">
     <!-- reset.css ress -->
     <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
     <link rel="stylesheet" href="css/style.css">
@@ -58,7 +60,39 @@
                             value="3" required>
                     </form>
                 </div>
+                <div class="setup-screen__content">
+                    <h3 class="title title--content">モード設定</h3>
+                    <form class="setup-screen__form-group" onsubmit="return false;">
+                        <div class="setup-screen__form-toggle">
+                            <input type="radio" id="tamed-mode" class="setup-screen__form-toggle-input" name="game-mode"
+                                value="tamed" checked>
+                            <label for="tamed-mode"
+                                class="setup-screen__form-toggle-label setup-screen__form-toggle-label--active">家畜モード</label>
+                            <input type="radio" id="wild-mode" class="setup-screen__form-toggle-input" name="game-mode"
+                                value="wild">
+                            <label for="wild-mode" class="setup-screen__form-toggle-label">野生モード</label>
+                            <span id="game-mode-slider"
+                                class="setup-screen__form-toggle-slider setup-screen__form-toggle-slider--tamed"></span>
+                        </div>
+                    </form>
+                </div>
                 <button id="start-game-btn" class="btn btn--primary">ゲーム開始</button>
+            </section>
+
+            <!-- ワードセット画面（家畜モード） -->
+            <section id="word-set-screen" class="word-set-screen screen">
+                <h2 class="title title--section">ワードセット</h2>
+                <h3 id="word-set-master-player" class="title title--content"></h3>
+                <p class="word-set-screen__text">マスターはワードを設定してください</p>
+                <form class="word-set-screen__form-group" onsubmit="return false;">
+                    <label class="word-set-screen__form-label" for="word-set-villager-word">村人ワード:</label>
+                    <input type="text" id="word-set-villager-word" class="word-set-screen__form-input" max="20" required>
+                    <label class="word-set-screen__form-label" for="word-set-wolf-word">ウルフワード:</label>
+                    <input type="text" id="word-set-wolf-word" class="word-set-screen__form-input" max="20" required>
+                    <p id="word-set-error-text" class="word-set-screen__form-error-text">※村人とウルフのワードは別のものを設定してください</p>
+                    <button id="word-set-swap-words-btn" class="btn btn--secondary">ワードを入れ替える</button>
+                </form>
+                <button id="word-set-confirm-btn" class="btn btn--primary">決定</button>
             </section>
 
             <!-- ワード配布画面 -->
@@ -96,6 +130,7 @@
                     </div>
                 </div>
                 <div class="discussion-screen__content">
+                    <h3 id="master-player-name" class="title title--content"></h3>
                     <ul id="players-list" class="discussion-screen__players-list">
                         <li class="discussion-screen__player-item"></li>
                     </ul>
@@ -149,7 +184,7 @@
                 <p class="wolf-chance-screen__form-text">ウルフは村人のワードを推測してください</p>
                 <form class="wolf-chance-screen__form-group" onsubmit="return false;">
                     <label class="wolf-chance-screen__form-label" for="wolf-guess">推測するワード:</label>
-                    <input type="text" id="wolf-guess" class="wolf-chance-screen__form-input" placeholder="ワードを入力">
+                    <input type="text" id="wolf-guess" class="wolf-chance-screen__form-input" placeholder="ワードを入力" max="20">
                 </form>
                 <button id="submit-guess-btn" class="btn btn--primary">回答する</button>
             </section>
@@ -174,7 +209,7 @@
 
             <!-- ゲーム結果画面 -->
             <section id="game-result-screen" class="game-result-screen screen">
-                <h2 class="title title--section">ゲーム結果</h2>
+                <h2 id="game-result-title" class="title title--section">ゲーム結果</h2>
                 <div class="game-result-screen__result">
                     <div class="game-result-screen__result-item game-result-screen__result-item--villager-win"
                         id="game-result-villager">村人の勝利！</div>
