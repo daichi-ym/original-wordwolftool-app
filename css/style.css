@@ -298,15 +298,17 @@ ul {
   width: 50%;
   height: 100%;
   border-radius: 24px;
-  transition: left 0.3s;
+  transition: all 0.3s;
 }
 .setup-screen__form-toggle-slider--tamed {
   background: #3498db;
   left: 0;
+  box-shadow: 1px 0 3px rgba(0, 0, 0, 0.12), 1px 0 2px rgba(0, 0, 0, 0.24);
 }
 .setup-screen__form-toggle-slider--wild {
   background: #e74c3c;
   left: 50%;
+  box-shadow: -1px 0 3px rgba(0, 0, 0, 0.12), -1px 0 2px rgba(0, 0, 0, 0.24);
 }
 
 /* ===========================================
