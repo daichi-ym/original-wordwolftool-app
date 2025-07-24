@@ -272,9 +272,6 @@ ul {
   overflow: hidden;
   width: 220px;
   height: 48px;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
   margin: 0 auto;
 }
 .setup-screen__form-toggle-input {
@@ -288,6 +285,7 @@ ul {
   cursor: pointer;
   font-weight: 700;
   color: #888;
+  -webkit-tap-highlight-color: transparent;
   transition: color 0.3s;
 }
 .setup-screen__form-toggle-label--active {
