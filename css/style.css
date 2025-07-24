@@ -310,6 +310,39 @@ ul {
   left: 50%;
   box-shadow: -1px 0 3px rgba(0, 0, 0, 0.12), -1px 0 2px rgba(0, 0, 0, 0.24);
 }
+.setup-screen__form-description {
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+}
+.setup-screen__form-description-frame {
+  display: flex;
+  transition: all 0.3s;
+}
+.setup-screen__form-description-frame--tamed {
+  transform: translateX(0);
+}
+.setup-screen__form-description-frame--wild {
+  transform: translateX(-100%);
+}
+.setup-screen__form-description-item {
+  padding: 12px 16px;
+  width: 100%;
+  flex-shrink: 0;
+}
+.setup-screen__form-description-item--tamed {
+  background: #e8f4fd;
+  color: #3498db;
+}
+.setup-screen__form-description-item--wild {
+  background: #f8d7da;
+  color: #e74c3c;
+}
+.setup-screen__form-description-item-title {
+  text-align: center;
+  margin-bottom: 8px;
+}
 
 /* ===========================================
 //  ワードセット画面

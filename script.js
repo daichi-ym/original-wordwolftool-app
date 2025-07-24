@@ -107,13 +107,15 @@ const elements = {
   continueGameBtn: document.getElementById('continue-game-btn'),
 
   // 設定画面
-  totalPlayers: document.getElementById('total-players'),
-  playerNamesContainer: document.getElementById('player-names-container'),
-  timerMinutes: document.getElementById('timer-minutes'),
   tamedMode: document.getElementById('tamed-mode'),
   wildMode: document.getElementById('wild-mode'),
   gameModeLabel: document.querySelectorAll('.setup-screen__form-toggle-label'),
   gameModeSlider: document.getElementById('game-mode-slider'),
+  gameModeDescription: document.getElementById('game-mode-description'),
+  totalPlayers: document.getElementById('total-players'),
+  totalPlayersCautionText: document.getElementById('total-players-caution-text'),
+  playerNamesContainer: document.getElementById('player-names-container'),
+  timerMinutes: document.getElementById('timer-minutes'),
   startGameBtn: document.getElementById('start-game-btn'),
 
   // ワードセット画面（家畜モード）
@@ -333,6 +335,32 @@ function updatePlayerNameInputs() {
   }
 }
 
+// ゲームモード選択
+function updateGameMode(e) {
+  gameState.gameMode = e.target.value;
+  elements.gameModeLabel.forEach(label => {
+    label.classList.remove('setup-screen__form-toggle-label--active');
+  });
+  e.target.labels[0].classList.add('setup-screen__form-toggle-label--active');
+  elements.gameModeSlider.className = `setup-screen__form-toggle-slider setup-screen__form-toggle-slider--${e.target.value}`;
+  // ディスクリプションの表示
+  elements.gameModeDescription.className = `setup-screen__form-description-frame setup-screen__form-description-frame--${e.target.value}`;
+
+  validatePlayerCountByMode();
+}
+
+function validatePlayerCountByMode() {
+  if (gameState.gameMode === 'tamed') {
+    elements.totalPlayers.min = 4;
+    elements.totalPlayers.max = 8;
+  } else if (gameState.gameMode === 'wild') {
+    elements.totalPlayers.min = 3;
+    elements.totalPlayers.max = 7;
+  }
+  elements.totalPlayersCautionText.textContent = `プレイ人数：${elements.totalPlayers.min}～${elements.totalPlayers.max}人`;
+  elements.totalPlayers.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
 function validateNumberInput(e) {
   const input = e.target; // イベントの対象要素（input）
   const min = parseInt(input.min, 10); // inputのmin属性を取得
@@ -348,16 +376,6 @@ function validateNumberInput(e) {
 
   if (value < min) input.value = min; // 最小値未満の場合は最小値にする
   if (value > max) input.value = max; // 最大値より大きい場合は最大値にする
-}
-
-// ゲームモード選択
-function updateGameMode(e) {
-  gameState.gameMode = e.target.value;
-  elements.gameModeLabel.forEach(label => {
-    label.classList.remove('setup-screen__form-toggle-label--active');
-  });
-  e.target.labels[0].classList.add('setup-screen__form-toggle-label--active');
-  elements.gameModeSlider.className = `setup-screen__form-toggle-slider setup-screen__form-toggle-slider--${e.target.value}`;
 }
 
 // ゲーム設定情報を登録

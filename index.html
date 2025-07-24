@@ -40,27 +40,6 @@
             <section id="setup-screen" class="setup-screen screen">
                 <h2 class="title title--section">ゲーム設定</h2>
                 <div class="setup-screen__content">
-                    <h3 class="title title--content">プレイヤー構成</h3>
-                    <form class="setup-screen__form-group" onsubmit="return false;">
-                        <label class="setup-screen__form-label" for="total-players">プレイヤー総数:</label>
-                        <input type="number" id="total-players" class="setup-screen__form-input" min="3" max="7"
-                            value="4" required>
-                        <p class="setup-screen__form-text">※ 村人: 3-6人、ウルフ: 1人（固定）</p>
-                    </form>
-                </div>
-                <div class="setup-screen__content">
-                    <h3 class="title title--content">プレイヤー名</h3>
-                    <div id="player-names-container"></div>
-                </div>
-                <div class="setup-screen__content">
-                    <h3 class="title title--content">タイマー設定</h3>
-                    <form class="setup-screen__form-group" onsubmit="return false;">
-                        <label class="setup-screen__form-label" for="timer-minutes">制限時間（分）:</label>
-                        <input type="number" id="timer-minutes" class="setup-screen__form-input" min="1" max="10"
-                            value="3" required>
-                    </form>
-                </div>
-                <div class="setup-screen__content">
                     <h3 class="title title--content">モード設定</h3>
                     <form class="setup-screen__form-group" onsubmit="return false;">
                         <div class="setup-screen__form-toggle">
@@ -75,6 +54,41 @@
                                 class="setup-screen__form-toggle-slider setup-screen__form-toggle-slider--tamed"></span>
                         </div>
                     </form>
+                    <div class="setup-screen__form-description">
+                        <ul id="game-mode-description"
+                            class="setup-screen__form-description-frame setup-screen__form-description-frame--tamed">
+                            <li class="setup-screen__form-description-item setup-screen__form-description-item--tamed">
+                                <h4 class="setup-screen__form-description-item-title">家畜モード Tamed Mode</h4>
+                                <p>ラウンドごとに1人のマスターが順番に選ばれ、お題を設定します。他のプレイヤーはそのお題でワードウルフをプレイします。マスターは議論には参加せず、観察者として進行を楽しめます。
+                                </p>
+                            </li>
+                            <li class="setup-screen__form-description-item setup-screen__form-description-item--wild">
+                                <h4 class="setup-screen__form-description-item-title">野生モード Wild Mode</h4>
+                                <p>全員がプレイヤーとしてゲームに参加し、お題は自動でランダムに選ばれます。よりカジュアルにテンポよく遊びたいときにおすすめのモードです。</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="setup-screen__content">
+                    <h3 class="title title--content">プレイヤー構成</h3>
+                    <form class="setup-screen__form-group" onsubmit="return false;">
+                        <label class="setup-screen__form-label" for="total-players">プレイヤー総数:</label>
+                        <input type="number" id="total-players" class="setup-screen__form-input" min="4" max="8"
+                            value="4" required>
+                        <p id="total-players-caution-text" class="setup-screen__form-text setup-screen__form-text--tamed">プレイ人数：4～8人</p>
+                    </form>
+                </div>
+                <div class="setup-screen__content">
+                    <h3 class="title title--content">プレイヤー名</h3>
+                    <div id="player-names-container"></div>
+                </div>
+                <div class="setup-screen__content">
+                    <h3 class="title title--content">タイマー設定</h3>
+                    <form class="setup-screen__form-group" onsubmit="return false;">
+                        <label class="setup-screen__form-label" for="timer-minutes">制限時間（分）:</label>
+                        <input type="number" id="timer-minutes" class="setup-screen__form-input" min="1" max="10"
+                            value="3" required>
+                    </form>
                 </div>
                 <button id="start-game-btn" class="btn btn--primary">ゲーム開始</button>
             </section>
@@ -86,7 +100,8 @@
                 <p class="word-set-screen__text">マスターはワードを設定してください</p>
                 <form class="word-set-screen__form-group" onsubmit="return false;">
                     <label class="word-set-screen__form-label" for="word-set-villager-word">村人ワード:</label>
-                    <input type="text" id="word-set-villager-word" class="word-set-screen__form-input" max="20" required>
+                    <input type="text" id="word-set-villager-word" class="word-set-screen__form-input" max="20"
+                        required>
                     <label class="word-set-screen__form-label" for="word-set-wolf-word">ウルフワード:</label>
                     <input type="text" id="word-set-wolf-word" class="word-set-screen__form-input" max="20" required>
                     <p id="word-set-error-text" class="word-set-screen__form-error-text">※村人とウルフのワードは別のものを設定してください</p>
@@ -184,7 +199,8 @@
                 <p class="wolf-chance-screen__form-text">ウルフは村人のワードを推測してください</p>
                 <form class="wolf-chance-screen__form-group" onsubmit="return false;">
                     <label class="wolf-chance-screen__form-label" for="wolf-guess">推測するワード:</label>
-                    <input type="text" id="wolf-guess" class="wolf-chance-screen__form-input" placeholder="ワードを入力" max="20">
+                    <input type="text" id="wolf-guess" class="wolf-chance-screen__form-input" placeholder="ワードを入力"
+                        max="20">
                 </form>
                 <button id="submit-guess-btn" class="btn btn--primary">回答する</button>
             </section>
