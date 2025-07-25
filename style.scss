@@ -14,7 +14,6 @@ $accent-color-light: #f8d7da; // アクセントカラーのライト
 $subtle-color: #888;
 $subtle-color-light: #ccc;
 
-
 $title-main-color: #2c3e50; // タイトルメインカラー
 $primary-font-color: #2c3e50; // デフォルトのテキストカラー
 $primary-font-color-light: #fff; // デフォルトのテキストカラー
@@ -24,6 +23,12 @@ $body-bg-color: #eee; // スクリーン背面の背景色
 $content-bg-color: #f8f9fa; // コンテンツ背景色
 $content-item-bg-color: #fff; // コンテンツアイテム背景色
 
+$item-border: 2px solid $subtle-color-light;
+
+$border-radius-screen: 16px;
+$border-radius-content: 12px;
+$border-radius-item: 8px;
+$border-radius-sub-item: 6px;
 
 $shadow-low: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); // 影の低め
 $shadow-high: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); // 影の高め
@@ -52,7 +57,7 @@ $mq-breakpoints: (
 // コンテンツボックス
 @mixin content-box {
     background: $content-bg-color;
-    border-radius: 12px;
+    border-radius: $border-radius-content;
     padding: 32px 16px;
     border-left: 4px solid $primary-color;
 }
@@ -145,14 +150,15 @@ $screen-animation-duration: 0.3s;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 /* 表示画面 */
 .screen {
     display: none;
     background: $screen-bg-color;
-    border-radius: 16px;
-    padding: 64px 32px;
+    border-radius: $border-radius-screen;
+    padding: 48px 32px 64px;
     box-shadow: $shadow-high;
     flex: 1 1 auto;
     min-height: 100%;
@@ -169,8 +175,8 @@ $screen-animation-duration: 0.3s;
     pointer-events: none;
     position: fixed;
     inset: 0;
-    background: rgba($color: #000, $alpha: 0.5);
-    z-index: 1;
+    background: rgba($color: #000, $alpha: 0.7);
+    z-index: 10;
     transition: opacity 0.3s ease-out;
 
     &--active {
@@ -213,7 +219,7 @@ $screen-animation-duration: 0.3s;
         font-size: 2rem;
         font-family: $title-font;
         color: $title-main-color;
-        margin: 0 0 48px;
+        margin: 48px 0;
     }
 
     &--section {
@@ -223,7 +229,7 @@ $screen-animation-duration: 0.3s;
 
     &--content {
         font-size: 1.4rem;
-        margin-bottom: 24px;
+        margin-bottom: 16px;
     }
 }
 
@@ -260,7 +266,7 @@ $btn-accent-bg-hover-color: linear-gradient(135deg, #c0392b, #a93226);
 
 .btn {
     padding: 12px;
-    border-radius: 8px;
+    border-radius: $border-radius-item;
     font-size: 1.2rem;
     font-weight: 700;
     cursor: pointer;
@@ -313,13 +319,101 @@ $btn-accent-bg-hover-color: linear-gradient(135deg, #c0392b, #a93226);
 }
 
 /* ===========================================
+//  ヘルプ画面
+// ======================================== */
+
+.help-screen {
+    max-width: 800px;
+    height: 100vh;
+    position: fixed;
+    inset: 0;
+    margin: 0 auto;
+    pointer-events: none;
+    z-index: 100;
+
+    &__modal {
+        @include content-box;
+        box-shadow: $shadow-high;
+        position: absolute;
+        inset: 36px 20px;
+        // inset: 68px 36px;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-10px);
+        transition: all 0.3s ease-out;
+        z-index: 1;
+
+        &--active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(0);
+        }
+
+        &-content {
+            border: $item-border;
+            border-radius: $border-radius-item;
+            background: $content-item-bg-color;
+            padding: 12px;
+            overflow: auto;
+            max-height: 70%;
+
+            &-title {
+                margin: 12px 0 8px;
+            }
+        }
+
+        &-mask {
+            opacity: 0;
+            pointer-events: none;
+            position: fixed;
+            inset: 0;
+            background: rgba($color: #000, $alpha: 0.3);
+            transition: opacity 0.3s ease-out;
+
+            &--active {
+                opacity: 1;
+                pointer-events: auto;
+            }
+        }
+    }
+
+
+    &__btn {
+        position: absolute;
+        right: 24px;
+        bottom: 24px;
+        background: $btn-secondary-bg-color;
+        color: $btn-secondary-font-color;
+        width: 48px;
+        aspect-ratio: 1 / 1;
+        border-radius: 50%;
+        font-size: 1.8rem;
+        font-weight: 900;
+        cursor: pointer;
+        transition: all 0.3s;
+        opacity: 0;
+        -webkit-tap-highlight-color: transparent;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+
+        &--active {
+            pointer-events: auto;
+            opacity: 0.7;
+        }
+    }
+}
+
+/* ===========================================
 //  設定画面
 // ======================================== */
 
-$setup-screen-form-input-border: 2px solid $subtle-color-light;
 $setup-screen-form-toggle-label-color: $subtle-color;
 $setup-screen-form-toggle-width: 220px;
 $setup-screen-form-toggle-height: 48px;
+
+$setup-screen-form-toggle-border-radius: calc($setup-screen-form-toggle-height / 2);
 
 .setup-screen {
     &__content {
@@ -342,8 +436,8 @@ $setup-screen-form-toggle-height: 48px;
         &-input {
             width: 100%;
             padding: 12px 16px;
-            border: $setup-screen-form-input-border;
-            border-radius: 8px;
+            border: $item-border;
+            border-radius: $border-radius-item;
             font-size: 1rem;
             background: $content-item-bg-color;
             transition: border-color 0.3s ease;
@@ -366,8 +460,8 @@ $setup-screen-form-toggle-height: 48px;
             display: flex;
             justify-content: center;
             align-items: center;
-            border: $setup-screen-form-input-border;
-            border-radius: 24px;
+            border: $item-border;
+            border-radius: $setup-screen-form-toggle-border-radius;
             background: $content-item-bg-color;
             overflow: hidden;
             width: $setup-screen-form-toggle-width;
@@ -400,7 +494,7 @@ $setup-screen-form-toggle-height: 48px;
                 left: 0;
                 width: 50%;
                 height: 100%;
-                border-radius: 24px;
+                border-radius: $setup-screen-form-toggle-border-radius;
                 transition: all 0.3s;
 
                 &--tamed {
@@ -418,8 +512,8 @@ $setup-screen-form-toggle-height: 48px;
         }
 
         &-description {
-            border: $setup-screen-form-input-border;
-            border-radius: 8px;
+            border: $item-border;
+            border-radius: $border-radius-item;
             background: $content-item-bg-color;
             overflow: hidden;
 
@@ -430,7 +524,7 @@ $setup-screen-form-toggle-height: 48px;
                 &--tamed {
                     transform: translateX(0);
                 }
-    
+
                 &--wild {
                     transform: translateX(-100%);
                 }
@@ -469,6 +563,14 @@ $setup-screen-form-toggle-height: 48px;
 // ======================================== */
 
 .word-set-screen {
+
+    &__text {
+        margin-bottom: 24px;
+        font-size: 0.9rem;
+        font-style: italic;
+        text-align: center;
+    }
+
     &__form {
         &-label {
             display: block;
@@ -479,8 +581,8 @@ $setup-screen-form-toggle-height: 48px;
         &-input {
             width: 100%;
             padding: 12px 16px;
-            border: $setup-screen-form-input-border;
-            border-radius: 8px;
+            border: $item-border;
+            border-radius: $border-radius-item;
             font-size: 1rem;
             background: $content-item-bg-color;
             transition: border-color 0.3s ease;
@@ -498,6 +600,8 @@ $setup-screen-form-toggle-height: 48px;
             font-weight: 700;
             color: $accent-color;
             transition: all 0.3s;
+            font-size: 0.9rem;
+            font-style: italic;
 
             &--active {
                 opacity: 1;
@@ -517,6 +621,14 @@ $word-distribution-modal-animation-duration: 0.5s;
 
 .word-distribution-screen {
     position: relative;
+
+    &__text {
+        color: $accent-color;
+        font-weight: 700;
+        text-align: center;
+        font-size: 0.9rem;
+        font-style: italic;
+    }
 
     &__modal {
         @include content-box;
@@ -544,7 +656,7 @@ $word-distribution-modal-animation-duration: 0.5s;
         background: $word-distribution-word-display-bg-color;
         margin-bottom: 16px;
         padding: 24px 12px;
-        border-radius: 8px;
+        border-radius: $border-radius-item;
         text-align: center;
         font-size: $word-distribution-word-display-font-size;
         font-weight: 700;
@@ -595,7 +707,7 @@ $discussion-screen-timer-font-color: $accent-color;
     &__player {
         &-item {
             background: $content-item-bg-color;
-            border-radius: 6px;
+            border-radius: $border-radius-item;
             padding: 12px;
             cursor: pointer;
             box-shadow: $shadow-low;
@@ -611,14 +723,14 @@ $discussion-screen-timer-font-color: $accent-color;
                 background: $primary-color;
                 color: $primary-font-color-light;
                 padding: 4px 8px;
-                border-radius: 4px;
+                border-radius: $border-radius-sub-item;
                 font-size: 0.9rem;
                 font-weight: 700;
             }
 
             &-word {
                 background: $primary-color-light;
-                border-radius: 4px;
+                border-radius: $border-radius-sub-item;
                 padding: 0 8px;
                 font-size: 1.2rem;
                 font-weight: 700;
@@ -649,12 +761,6 @@ $vote-screen-modal-animation-duration: 0.5s;
 .vote-screen {
     position: relative;
 
-    &__content {
-        &-btn {
-            display: none;
-        }
-    }
-
     &__modal {
         @include content-box;
         box-shadow: $shadow-high;
@@ -671,6 +777,13 @@ $vote-screen-modal-animation-duration: 0.5s;
             pointer-events: auto;
             transform: translateX(0);
         }
+
+        &-text {
+            margin-bottom: 24px;
+            font-size: 0.9rem;
+            font-style: italic;
+            text-align: center;
+        }
     }
 
     &__options {
@@ -681,7 +794,7 @@ $vote-screen-modal-animation-duration: 0.5s;
 
     &__option-item {
         background: $content-item-bg-color;
-        border-radius: 6px;
+        border-radius: $border-radius-item;
         padding: 12px;
         cursor: pointer;
         box-shadow: $shadow-low;
@@ -720,7 +833,7 @@ $vote-screen-modal-animation-duration: 0.5s;
             font-weight: 700;
             margin-bottom: 24px;
             padding: 24px 16px;
-            border-radius: 12px;
+            border-radius: $border-radius-content;
             text-align: center;
             box-shadow: $shadow-high;
 
@@ -749,7 +862,7 @@ $vote-screen-modal-animation-duration: 0.5s;
 
         &-item {
             background: $content-item-bg-color;
-            border-radius: 6px;
+            border-radius: $border-radius-item;
             padding: 8px 12px;
             display: flex;
             justify-content: center;
@@ -785,8 +898,8 @@ $vote-screen-modal-animation-duration: 0.5s;
         &-input {
             width: 100%;
             padding: 12px 16px;
-            border: $setup-screen-form-input-border;
-            border-radius: 8px;
+            border: $item-border;
+            border-radius: $border-radius-item;
             font-size: 1rem;
             background: $content-item-bg-color;
             transition: border-color 0.3s ease;
@@ -819,7 +932,7 @@ $vote-screen-modal-animation-duration: 0.5s;
             font-weight: 700;
             margin-bottom: 24px;
             padding: 24px;
-            border-radius: 12px;
+            border-radius: $border-radius-content;
             text-align: center;
             box-shadow: $shadow-high;
 
@@ -852,7 +965,7 @@ $vote-screen-modal-animation-duration: 0.5s;
             font-weight: 700;
             margin-bottom: 24px;
             padding: 24px;
-            border-radius: 12px;
+            border-radius: $border-radius-content;
             text-align: center;
             box-shadow: $shadow-high;
 
@@ -883,7 +996,7 @@ $vote-screen-modal-animation-duration: 0.5s;
 
         &-item {
             background: $content-item-bg-color;
-            border-radius: 6px;
+            border-radius: $border-radius-item;
             padding: 8px 12px;
             font-weight: 700;
             position: relative;
@@ -898,7 +1011,7 @@ $vote-screen-modal-animation-duration: 0.5s;
 
         &-word {
             text-align: center;
-            border-radius: 4px;
+            border-radius: $border-radius-sub-item;
             padding: 4px 8px;
             font-weight: 700;
             font-size: 0.9rem;
@@ -920,14 +1033,12 @@ $vote-screen-modal-animation-duration: 0.5s;
         }
 
         &-plus {
-            color: rgba($accent-color, 0.7);
-            padding: 4px;
-            border-radius: 4px;
+            color: rgba($accent-color, 0.8);
             font-size: 1rem;
             font-weight: 700;
             text-shadow: $shadow-high;
             position: absolute;
-            top: 2px;
+            top: 6px;
             right: 48px;
         }
     }
@@ -953,7 +1064,7 @@ $vote-screen-modal-animation-duration: 0.5s;
 
         &-item {
             background: $content-item-bg-color;
-            border-radius: 6px;
+            border-radius: $border-radius-item;
             padding: 8px 12px;
             display: flex;
             justify-content: space-between;

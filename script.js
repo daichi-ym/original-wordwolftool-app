@@ -102,6 +102,12 @@ const elements = {
   // ラウンドカウント
   roundCount: document.getElementById('round-count'),
 
+  // ヘルプ画面
+  helpModal: document.getElementById('help-modal'),
+  helpModalMask: document.getElementById('help-modal-mask'),
+  showHelpBtn: document.getElementById('show-help-btn'),
+  closeHelpBtn: document.getElementById('close-help-btn'),
+
   // トップページ
   startNewGameBtn: document.getElementById('start-new-game-btn'),
   continueGameBtn: document.getElementById('continue-game-btn'),
@@ -128,6 +134,7 @@ const elements = {
 
   // ワード配布画面
   currentPlayerName: document.getElementById('current-player-name'),
+  WordDistributionCurrentText: document.getElementById('word-distribution-current-text'),
   revealWordBtn: document.getElementById('reveal-word-btn'),
   wordModal: document.getElementById('word-modal'),
   wordModalPlayerName: document.getElementById('word-modal-player-name'),
@@ -201,6 +208,11 @@ async function init() {
 
 function setupEventListeners() {
 
+  // ヘルプ画面
+  elements.showHelpBtn.addEventListener('click', showHelpScreenModal);
+  elements.closeHelpBtn.addEventListener('click', closeHelpScreenModal);
+  elements.helpModalMask.addEventListener('click', maskClickToCloseHelp);
+
   // トップページ
   elements.startNewGameBtn.addEventListener('click', () => {
     initGameState();
@@ -250,6 +262,7 @@ function setupEventListeners() {
   elements.gameResultBtnVote.addEventListener('click', calculateScore);
 
   // 逆転チャンス画面
+  elements.wolfGuess.addEventListener('input', validateGuessInput);
   elements.submitGuessBtn.addEventListener('click', submitWolfGuess);
 
   // 逆転チャンス結果画面
@@ -293,6 +306,27 @@ function setupTopPage() {
   } else {
     elements.continueGameBtn.disabled = true;
   }
+}
+
+// ===========================================
+//  ヘルプ画面
+// ===========================================
+
+
+function showHelpScreenModal() {
+  elements.helpModal.classList.add('help-screen__modal--active');
+  elements.helpModalMask.classList.add('help-screen__modal-mask--active');
+  elements.showHelpBtn.classList.remove('help-screen__btn--active');
+}
+
+function closeHelpScreenModal() {
+  elements.helpModal.classList.remove('help-screen__modal--active');
+  elements.helpModalMask.classList.remove('help-screen__modal-mask--active');
+  elements.showHelpBtn.classList.add('help-screen__btn--active');
+}
+
+function maskClickToCloseHelp() {
+  elements.closeHelpBtn.click();
 }
 
 // ===========================================
@@ -460,10 +494,14 @@ function roundCountAnimation() {
   elements.roundCount.textContent = `Round ${gameState.roundCount}`;
   elements.modalMask.classList.add('modal-mask--active');
   elements.roundCount.classList.add('modal-mask__round-count--active');
+  // アニメーション中はヘルプボタンを非表示
+  elements.showHelpBtn.classList.remove('help-screen__btn--active');
 
   setTimeout(() => {
     elements.modalMask.classList.remove('modal-mask--active');
     elements.roundCount.classList.remove('modal-mask__round-count--active');
+    elements.showHelpBtn.classList.add('help-screen__btn--active');
+
   }, 2000);
 }
 
@@ -558,8 +596,9 @@ function setupWordDistributionScreen() {
   if (!currentPlayer) return;
 
   const currentPlayerWord = `${currentPlayer.name}のワード`
-
   elements.currentPlayerName.textContent = currentPlayerWord;
+  elements.WordDistributionCurrentText.textContent = `${currentPlayer.name}だけ確認してください`
+
   elements.wordModalPlayerName.textContent = currentPlayerWord;
 
   saveGameState();
@@ -798,7 +837,8 @@ function setupVoteScreen() {
   elements.voteModalPlayerName.textContent = `${currentPlayer.name}の投票`;
 
   createVoteOptions();
-  elements.voteModalSubmitBtn.style.display = 'none';
+  // elements.voteModalSubmitBtn.style.display = 'none';
+  elements.voteModalSubmitBtn.disabled = true;
 
   saveGameState();
 }
@@ -831,7 +871,8 @@ function selectVoteOption(optionElement, playerIndex) {
     option.classList.remove('vote-screen__option-item--selected');
   });
   optionElement.classList.add('vote-screen__option-item--selected');
-  elements.voteModalSubmitBtn.style.display = 'inline-block';
+  // elements.voteModalSubmitBtn.style.display = 'inline-block';
+  elements.voteModalSubmitBtn.disabled = false;
   // 選択indexを保持
   gameState.players[gameState.currentPlayerIndex].votedIndex = playerIndex;
 }
@@ -973,13 +1014,13 @@ function setupWolfChanceScreen() {
   saveGameState();
 }
 
+function validateGuessInput() {
+  elements.submitGuessBtn.disabled = !elements.wolfGuess.value.trim();
+}
+
 // ウルフの推測提出
 function submitWolfGuess() {
   const guess = elements.wolfGuess.value.trim();
-  if (!guess) {
-    alert('推測を入力してください。');
-    return;
-  }
 
   // 成否判定
   gameState.isWolfWinner = guess === gameState.villagerWord;
