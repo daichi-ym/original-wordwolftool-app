@@ -358,8 +358,13 @@ $btn-accent-bg-hover-color: linear-gradient(135deg, #c0392b, #a93226);
             max-height: 70%;
 
             &-title {
-                margin: 12px 0 8px;
+                font-size: 1.2rem;
+                margin: 24px 0 4px;
             }
+        }
+
+        &-step-title {
+            margin-top: 8px;
         }
 
         &-mask {

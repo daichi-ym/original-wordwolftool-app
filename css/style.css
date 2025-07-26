@@ -264,7 +264,11 @@ ul {
   max-height: 70%;
 }
 .help-screen__modal-content-title {
-  margin: 12px 0 8px;
+  font-size: 1.2rem;
+  margin: 24px 0 4px;
+}
+.help-screen__modal-step-title {
+  margin-top: 8px;
 }
 .help-screen__modal-mask {
   opacity: 0;

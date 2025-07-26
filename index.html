@@ -34,16 +34,42 @@
                 <div id="help-modal" class="help-screen__modal">
                     <h2 class="title title--section">ヘルプ</h2>
                     <div class="help-screen__modal-content">
-                        <h3 class="help-screen__modal-content-title title title--content">テキスト</h3>
-                        <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                        <h3 class="help-screen__modal-content-title title">ワードウルフとは？</h3>
+                        <p>ワードウルフとは、プレイヤー同士で会話をしながら、「異なるお題を持っている人（=ワードウルフ）」を見つけ出す推理ゲームです。各プレイヤーには1つずつお題が与えられますが、そのうち1人だけ、他のプレイヤーとは異なるお題が配られます。誰がワードウルフなのかを、会話を通して見抜きましょう。
                         </p>
-                        <h3 class="help-screen__modal-content-title title title--content">テキスト</h3>
-                        <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                        <h3 class="help-screen__modal-content-title title">遊び方</h3>
+                        <h4 class="help-screen__modal-step-title">① ゲーム設定</h4>
+                        <ul>
+                            <li>・ゲームモードの選択 ※下記詳細</li>
+                            <li>・プレイヤー人数の入力</li>
+                            <li>・プレイヤー名の入力</li>
+                            <li>・討論時間の設定</li>
+                        </ul>
+                        <h4 class="help-screen__modal-step-title">② ワードの設定 ※家畜モードのみ</h4>
+                        <p>マスターが「村人ワード」と「ウルフワード」の2つを設定します。全体の会話バランスが崩れないよう、似た内容で設定するのがコツです。</p>
+                        <h4 class="help-screen__modal-step-title">③ ワードの確認</h4>
+                        <p>プレイヤー全員にそれぞれのお題が順番に表示されます。1人だけには「ウルフワード」が配られ、他のプレイヤーには「村人ワード」が配られます。</p>
+                        <h4 class="help-screen__modal-step-title">④ 討論タイム</h4>
+                        <p>設定された時間内で、お題に関する自由な会話を行います。お題を直接口にしたり、明確に連想できる発言は避けましょう。</p>
+                        <h4 class="help-screen__modal-step-title">⑤ 投票</h4>
+                        <p>討論終了後、ウルフだと思うプレイヤーに、プレイヤーが順番に投票します。</p>
+                        <h4 class="help-screen__modal-step-title">⑥ 投票結果</h4>
+                        <p>最も票を集めたプレイヤーがウルフだった場合、村人の勝利です。ウルフではなかった場合は、ウルフの勝利となりますが...
+                            <br>
+                            <strong>ウルフ側には逆転チャンスがあります。</strong>
+                            ウルフが「村人側のワード」を正しく推理できた場合、逆転勝利となります。
                         </p>
-                        <h3 class="help-screen__modal-content-title title title--content">テキスト</h3>
-                        <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
-                        </p>
-
+                        <h3 class="help-screen__modal-content-title title">スコアの計算</h3>
+                        <h4 class="help-screen__modal-step-title">ウルフを指名成功+逆転チャンス失敗</h4>
+                        <p>ウルフに投票したプレイヤーに+1点</p>
+                        <h4 class="help-screen__modal-step-title">ウルフを指名成功+逆転チャンス成功</h4>
+                        <p>ウルフに+1点</p>
+                        <h4 class="help-screen__modal-step-title">ウルフを指名失敗</h4><p>ウルフに+1点</p>
+                        <h3 class="help-screen__modal-content-title title">モードについて</h3>
+                        <h4 class="help-screen__modal-step-title">家畜モード（Tamed Mode）</h4>
+                        <p>ラウンドごとに1人のマスターが順番に選ばれ、お題を設定します。他のプレイヤーはそのお題でワードウルフをプレイします。マスターは議論には参加せず、観察者として進行を楽しめます。</p>
+                        <h4 class="help-screen__modal-step-title">野生モード（Wild Mode）</h4>
+                        <p>全員がプレイヤーとしてゲームに参加し、お題は自動でランダムに選ばれます。よりカジュアルにテンポよく遊びたいときにおすすめのモードです。</p>
                     </div>
                     <button id="close-help-btn" class="btn btn--secondary">閉じる</button>
                 </div>
@@ -62,7 +88,7 @@
             <section id="setup-screen" class="setup-screen screen">
                 <h2 class="title title--section">ゲーム設定</h2>
                 <div class="setup-screen__content">
-                    <h3 class="title title--content">モード選択</h3>
+                    <h3 class="title title--content">ゲームモード選択</h3>
                     <form class="setup-screen__form-group" onsubmit="return false;">
                         <div class="setup-screen__form-toggle">
                             <input type="radio" id="tamed-mode" class="setup-screen__form-toggle-input" name="game-mode"
@@ -80,12 +106,12 @@
                         <ul id="game-mode-description"
                             class="setup-screen__form-description-frame setup-screen__form-description-frame--tamed">
                             <li class="setup-screen__form-description-item setup-screen__form-description-item--tamed">
-                                <h4 class="setup-screen__form-description-item-title">家畜モード Tamed Mode</h4>
+                                <h4 class="setup-screen__form-description-item-title">家畜モード（Tamed Mode）</h4>
                                 <p>ラウンドごとに1人のマスターが順番に選ばれ、お題を設定します。他のプレイヤーはそのお題でワードウルフをプレイします。マスターは議論には参加せず、観察者として進行を楽しめます。
                                 </p>
                             </li>
                             <li class="setup-screen__form-description-item setup-screen__form-description-item--wild">
-                                <h4 class="setup-screen__form-description-item-title">野生モード Wild Mode</h4>
+                                <h4 class="setup-screen__form-description-item-title">野生モード（Wild Mode）</h4>
                                 <p>全員がプレイヤーとしてゲームに参加し、お題は自動でランダムに選ばれます。よりカジュアルにテンポよく遊びたいときにおすすめのモードです。</p>
                             </li>
                         </ul>
@@ -118,7 +144,7 @@
 
             <!-- ワードセット画面（家畜モード） -->
             <section id="word-set-screen" class="word-set-screen screen">
-                <h2 class="title title--section">ワードセット</h2>
+                <h2 class="title title--section">ワードの設定</h2>
                 <h3 id="word-set-master-player" class="title title--content"></h3>
                 <p class="word-set-screen__text">マスターはワードを設定してください</p>
                 <form class="word-set-screen__form-group" onsubmit="return false;">
@@ -135,11 +161,11 @@
 
             <!-- ワード配布画面 -->
             <section id="word-distribution-screen" class="word-distribution-screen screen">
-                <h2 class="title title--section">ワード配布</h2>
+                <h2 class="title title--section">ワードの確認</h2>
                 <div id="current-player-info">
                     <h3 id="current-player-name" class="title title--content"></h3>
                     <p id="word-distribution-current-text" class="word-distribution-screen__text"></p>
-                    <button id="reveal-word-btn" class="btn btn--accent">ワードを確認</button>
+                    <button id="reveal-word-btn" class="btn btn--accent">ワードの確認</button>
                 </div>
                 <div id="word-modal" class="word-distribution-screen__modal">
                     <h3 id="word-modal-player-name" class="title title--content"></h3>
@@ -153,7 +179,7 @@
 
             <!-- 討論画面 -->
             <section id="discussion-screen" class="discussion-screen screen">
-                <h2 class="title title--section">討論</h2>
+                <h2 class="title title--section">討論タイム</h2>
                 <div class="discussion-screen__content">
                     <div id="timer-display" class="discussion-screen__timer"></div>
                     <button id="start-timer-btn" class="btn btn--primary">討論開始</button>
