@@ -707,6 +707,13 @@ $discussion-screen-timer-font-color: $accent-color;
         display: flex;
         flex-direction: column;
         gap: 12px;
+
+        &-text {
+            text-align: center;
+            font-size: 0.9rem;
+            font-style: italic;
+            margin-top: 16px;
+        }
     }
 
     &__player {

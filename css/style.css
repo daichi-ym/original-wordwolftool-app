@@ -550,6 +550,12 @@ ul {
   flex-direction: column;
   gap: 12px;
 }
+.discussion-screen__players-list-text {
+  text-align: center;
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-top: 16px;
+}
 .discussion-screen__player-item {
   background: #fff;
   border-radius: 8px;
