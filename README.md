@@ -98,4 +98,4 @@ GitHub Pages：
 
 
 ## ライセンス
-MIT License
+本プロジェクトは [MIT License](LICENSE) のもとで公開しています。
