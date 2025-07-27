@@ -176,11 +176,11 @@ ul {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 .btn--primary {
-  background: linear-gradient(135deg, #3498db, #2980b9);
+  background: #3498db;
   color: #fff;
 }
 .btn--primary:hover {
-  background: linear-gradient(135deg, #2980b9, #1f5f8b);
+  background: #217dbb;
   transform: scale(1.02);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
@@ -192,11 +192,11 @@ ul {
   transform: none;
 }
 .btn--secondary {
-  background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+  background: #95a5a6;
   color: #fff;
 }
 .btn--secondary:hover {
-  background: linear-gradient(135deg, #7f8c8d, #6c7b7d);
+  background: #798d8f;
   transform: scale(1.02);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
@@ -208,11 +208,11 @@ ul {
   transform: none;
 }
 .btn--accent {
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  background: #e74c3c;
   color: #fff;
 }
 .btn--accent:hover {
-  background: linear-gradient(135deg, #c0392b, #a93226);
+  background: #d62c1a;
   transform: scale(1.02);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
@@ -286,7 +286,7 @@ ul {
   position: absolute;
   right: 24px;
   bottom: 24px;
-  background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+  background: #95a5a6;
   color: #fff;
   width: 48px;
   aspect-ratio: 1/1;
@@ -297,9 +297,12 @@ ul {
   transition: all 0.3s;
   opacity: 0;
   -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 .help-screen__btn:hover {
   transform: scale(1.1);
+  background: #798d8f;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 .help-screen__btn--active {
   pointer-events: auto;

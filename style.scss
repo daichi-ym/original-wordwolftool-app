@@ -237,17 +237,19 @@ $screen-animation-duration: 0.3s;
 //  ボタン
 // ======================================== */
 
-$btn-primary-font-color: #fff;
-$btn-primary-bg-color: linear-gradient(135deg, #3498db, #2980b9);
-$btn-primary-bg-hover-color: linear-gradient(135deg, #2980b9, #1f5f8b);
+$btn-secondary-color: #95a5a6;
 
-$btn-secondary-font-color: #fff;
-$btn-secondary-bg-color: linear-gradient(135deg, #95a5a6, #7f8c8d);
-$btn-secondary-bg-hover-color: linear-gradient(135deg, #7f8c8d, #6c7b7d);
+$btn-primary-font-color: $primary-font-color-light;
+$btn-primary-bg-color: $primary-color;
+$btn-primary-bg-hover-color: darken($primary-color, 10%);
 
-$btn-accent-font-color: #fff;
-$btn-accent-bg-color: linear-gradient(135deg, #e74c3c, #c0392b);
-$btn-accent-bg-hover-color: linear-gradient(135deg, #c0392b, #a93226);
+$btn-secondary-font-color: $primary-font-color-light;
+$btn-secondary-bg-color: $btn-secondary-color;
+$btn-secondary-bg-hover-color: darken($btn-secondary-color, 10%);
+
+$btn-accent-font-color: $primary-font-color-light;
+$btn-accent-bg-color: $accent-color;
+$btn-accent-bg-hover-color: darken($accent-color, 10%);
 
 // ボタン無効化
 @mixin btn-disabled {
@@ -398,9 +400,12 @@ $btn-accent-bg-hover-color: linear-gradient(135deg, #c0392b, #a93226);
         transition: all 0.3s;
         opacity: 0;
         -webkit-tap-highlight-color: transparent;
+        box-shadow: $shadow-low;
 
         &:hover {
             transform: scale(1.1);
+            background: $btn-secondary-bg-hover-color;
+            box-shadow: $shadow-high;
         }
 
         &--active {
