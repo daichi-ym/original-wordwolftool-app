@@ -767,6 +767,10 @@ ul {
 .wolf-chance-result-screen__villager-word {
   font-size: 1rem;
 }
+.wolf-chance-result-screen__text {
+  font-size: 0.9rem;
+  font-style: italic;
+}
 
 /* ===========================================
 //  ゲーム結果画面

@@ -40,6 +40,9 @@ const gameState = {
   // ウルフの勝利判定
   isWolfWinner: null, // ウルフの勝利判定フラグ
 
+  // 逆転チャンス
+  wolfGuess: '',
+
 }
 
 // ===========================================
@@ -175,10 +178,12 @@ const elements = {
   submitGuessBtn: document.getElementById('submit-guess-btn'),
 
   // 逆転チャンス結果画面
+  wolfGuessDisplay: document.getElementById('wolf-guess-display'),
   wolfChanceResultSuccess: document.getElementById('wolf-chance-result-success'),
   wolfChanceResultFailure: document.getElementById('wolf-chance-result-failure'),
   wolfChanceResultVillagerWord: document.querySelectorAll('.wolf-chance-result-screen__villager-word'),
   gameResultBtnWolfChance: document.getElementById('game-result-btn-wolf-chance'),
+  modifyResultBtn: document.getElementById('modify-result-btn'),
 
   // 結果画面
   gameResultTitle: document.getElementById('game-result-title'),
@@ -268,6 +273,7 @@ function setupEventListeners() {
 
   // 逆転チャンス結果画面
   elements.gameResultBtnWolfChance.addEventListener('click', calculateScore);
+  elements.modifyResultBtn.addEventListener('click', modifyWolfGuessResult);
 
   // ゲーム結果画面
   elements.nextGameBtn.addEventListener('click', setupRound);
@@ -765,6 +771,7 @@ async function setupAudio() {
     await elements.wolfSound.play()
     elements.wolfSound.pause();
     elements.wolfSound.currentTime = 0;
+    elements.wolfSound.muted = false;
   } catch (e) {
     console.warn('オーディオの読み込みに失敗：', e);
   }
@@ -800,8 +807,7 @@ function timerEnd() {
 }
 
 function playTimerSound() {
-  const audio = new Audio('audio/wolf_howl_alert.mp3');
-  audio.play();
+  elements.wolfSound.play();
 }
 
 // ===========================================
@@ -1034,10 +1040,10 @@ function validateGuessInput() {
 
 // ウルフの推測提出
 function submitWolfGuess() {
-  const guess = elements.wolfGuess.value.trim();
+  gameState.wolfGuess = elements.wolfGuess.value.trim();
 
   // 成否判定
-  gameState.isWolfWinner = guess === gameState.villagerWord;
+  gameState.isWolfWinner = gameState.wolfGuess === gameState.villagerWord;
 
   showWolfChanceResultScreen();
 }
@@ -1048,12 +1054,13 @@ function submitWolfGuess() {
 
 // 逆転チャンス結果画面の表示
 function showWolfChanceResultScreen() {
-  setupWolfChanceResultScreen();
   showScreen('wolf-chance-result');
+  setupWolfChanceResultScreen();
 }
 
 // 逆転チャンス結果画面のUIを設定
 function setupWolfChanceResultScreen() {
+  elements.wolfGuessDisplay.innerHTML = `ウルフの推測<br>「${gameState.wolfGuess}」`
   if (gameState.isWolfWinner) {
     elements.wolfChanceResultSuccess.style.display = 'block';
     elements.wolfChanceResultFailure.style.display = 'none';
@@ -1067,6 +1074,12 @@ function setupWolfChanceResultScreen() {
   });
 
   saveGameState();
+}
+
+function modifyWolfGuessResult() {
+  gameState.isWolfWinner = !gameState.isWolfWinner;
+
+  showWolfChanceResultScreen()
 }
 
 // ===========================================
@@ -1173,7 +1186,7 @@ function playerMarge() {
 function addScoreIcon(player, listItem) {
   const plusSpan = document.createElement('span');
   plusSpan.className = 'game-result-screen__score-plus';
-  plusSpan.textContent = `+1点`;
+  plusSpan.textContent = `WIN`;
 
   if (gameState.isWolfWinner) {
     if (player.index === gameState.wolfIndex) {
