@@ -143,13 +143,14 @@ const elements = {
   showDiscussionBtn: document.getElementById('show-discussion-btn'),
 
   // 討論画面
-  playersList: document.getElementById('players-list'),
-  masterPlayerName: document.getElementById('master-player-name'),
+  timerDisplay: document.getElementById('timer-display'),
   startTimerBtn: document.getElementById('start-timer-btn'),
   pauseTimerBtn: document.getElementById('pause-timer-btn'),
   resumeTimerBtn: document.getElementById('resume-timer-btn'),
   endDiscussionBtn: document.getElementById('end-discussion-btn'),
-  timerDisplay: document.getElementById('timer-display'),
+  wolfSound: document.getElementById('wolf-sound'),
+  masterPlayerName: document.getElementById('master-player-name'),
+  playersList: document.getElementById('players-list'),
 
   // 投票画面
   startVoteBtn: document.getElementById('start-vote-btn'),
@@ -737,23 +738,36 @@ function endDiscussion() {
 
 // タイマー開始
 function startTimer() {
+  setupAudio();
+
   if (gameState.timer) {
     clearInterval(gameState.timer);
   }
-
+  
   gameState.timer = setInterval(() => {
     if (!gameState.isTimerPaused) {
       gameState.timeRemaining--;
       updateTimerDisplay();
-
+      
       if (gameState.timeRemaining <= 0) {
         clearInterval(gameState.timer);
         timerEnd();
       }
     }
   }, 1000);
-
+  
   updateTimerDisplay();
+}
+
+// オーディオの準備
+async function setupAudio() {
+  try {
+    await elements.wolfSound.play()
+    elements.wolfSound.pause();
+    elements.wolfSound.currentTime = 0;
+  } catch (e) {
+    console.warn('オーディオの読み込みに失敗：', e);
+  }
 }
 
 // タイマー表示更新
