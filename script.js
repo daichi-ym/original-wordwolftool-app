@@ -349,6 +349,13 @@ function showSetupScreen() {
 function updatePlayerNameInputs() {
   const totalPlayers = parseInt(elements.totalPlayers.value);
 
+  // 既存の入力値を保持
+  const existingValues = [];
+  const inputs = document.querySelectorAll('.setup-screen__form-input--player-name');
+  inputs.forEach(input => {
+    existingValues.push(input.value);
+  });
+
   // 既存の入力フィールドをクリア
   elements.playerNamesContainer.innerHTML = '';
 
@@ -369,6 +376,11 @@ function updatePlayerNameInputs() {
     input.placeholder = '5文字以内で入力してください';
     input.id = label.htmlFor;
     input.maxLength = 5;
+
+    // 既存フォームに入力がある場合引き継ぐ
+    if (existingValues[i]) {
+      input.value = existingValues[i];
+    }
 
     playerForm.appendChild(label);
     playerForm.appendChild(input);
