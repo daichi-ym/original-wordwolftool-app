@@ -757,7 +757,7 @@ function endDiscussion() {
 // タイマー開始
 function startTimer() {
   setupAudio();
-
+  
   if (gameState.timer) {
     clearInterval(gameState.timer);
   }
@@ -780,10 +780,11 @@ function startTimer() {
 // オーディオの準備
 async function setupAudio() {
   try {
-    await elements.wolfSound.play()
-    elements.wolfSound.pause();
-    elements.wolfSound.currentTime = 0;
-    elements.wolfSound.muted = false;
+    elements.wolfSound.muted = true; // playからpause間の音出しを防ぐ
+    await elements.wolfSound.play() // ブラウザからの許可待ち
+    elements.wolfSound.pause(); // 再生後、即停止
+    elements.wolfSound.currentTime = 0; // 再生位置を最初に戻す
+    elements.wolfSound.muted = false; // ミュートを外して再生準備
   } catch (e) {
     console.warn('オーディオの読み込みに失敗：', e);
   }
