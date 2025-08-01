@@ -5,7 +5,6 @@
 // ===========================================
 
 const gameState = {
-
   // ゲーム設定
   totalPlayers: 4, // プレイヤー総数
   timerMinutes: 3, // 制限時間（分）
@@ -21,6 +20,7 @@ const gameState = {
   roundCount: 0, // ラウンド数
 
   // ワード設定
+  wordSets: [], // ワードセット
   villagerWord: '', // 村人ワード
   wolfWord: '', // ウルフワード
 
@@ -41,15 +41,12 @@ const gameState = {
   isWolfWinner: null, // ウルフの勝利判定フラグ
 
   // 逆転チャンス
-  wolfGuess: '',
-
+  wolfGuess: '', // ウルフの逆転チャンス予想ワード
 }
 
 // ===========================================
 //  ワードセット
 // ===========================================
-
-let wordSets = [];
 
 // JSONファイルからワードセットを読み込み
 async function loadWordSets() {
@@ -58,13 +55,13 @@ async function loadWordSets() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    wordSets = (await response.json()).wordSets;
-    console.log('ワードセットを読み込みました:', wordSets.length, 'セット');
+    gameState.wordSets = (await response.json()).wordSets;
+    console.log('ワードセットを読み込みました:', gameState.wordSets.length, 'セット');
   } catch (error) {
     console.error('ワードセットの読み込みに失敗しました:', error);
 
     // フォールバック用のデフォルトワードセット
-    wordSets = [
+    gameState.wordSets = [
       {
         word1: 'りんご',
         word2: 'みかん'
@@ -86,7 +83,6 @@ async function loadWordSets() {
 // ===========================================
 
 const elements = {
-
   // 画面（プログラムとしては現状未使用（一覧の明示目的））
   topPage: document.getElementById('top-page'),
   setupScreen: document.getElementById('setup-screen'),
@@ -213,7 +209,6 @@ async function init() {
 // ===========================================
 
 function setupEventListeners() {
-
   // ヘルプ画面
   elements.showHelpBtn.addEventListener('click', showHelpScreenModal);
   elements.closeHelpBtn.addEventListener('click', closeHelpScreenModal);
@@ -288,7 +283,6 @@ function setupEventListeners() {
 // ===========================================
 
 function showScreen(screenName) {
-
   // すべての画面を非表示
   document.querySelectorAll('.screen').forEach(screen => {
     screen.classList.remove('screen--active');
@@ -319,19 +313,21 @@ function setupTopPage() {
 //  ヘルプ画面
 // ===========================================
 
-
+// ヘルプ画面を表示
 function showHelpScreenModal() {
   elements.helpModal.classList.add('help-screen__modal--active');
   elements.helpModalMask.classList.add('help-screen__modal-mask--active');
   elements.showHelpBtn.classList.remove('help-screen__btn--active');
 }
 
+// ヘルプ画面を閉じる
 function closeHelpScreenModal() {
   elements.helpModal.classList.remove('help-screen__modal--active');
   elements.helpModalMask.classList.remove('help-screen__modal-mask--active');
   elements.showHelpBtn.classList.add('help-screen__btn--active');
 }
 
+// ヘルプ画面のマスクをクリックしたら閉じる
 function maskClickToCloseHelp() {
   elements.closeHelpBtn.click();
 }
@@ -340,6 +336,7 @@ function maskClickToCloseHelp() {
 //  ゲーム設定画面
 // ===========================================
 
+// ゲーム設定画面を表示
 function showSetupScreen() {
   showScreen('setup');
   updatePlayerNameInputs();
@@ -402,6 +399,7 @@ function updateGameMode(e) {
   validatePlayerCountByMode();
 }
 
+// プレイ人数のバリデーション
 function validatePlayerCountByMode() {
   if (gameState.gameMode === 'tamed') {
     elements.totalPlayers.min = 4;
@@ -414,6 +412,7 @@ function validatePlayerCountByMode() {
   elements.totalPlayers.dispatchEvent(new Event('change', { bubbles: true }));
 }
 
+// 数値入力のバリデーション
 function validateNumberInput(e) {
   const input = e.target; // イベントの対象要素（input）
   const min = parseInt(input.min, 10); // inputのmin属性を取得
@@ -463,6 +462,7 @@ function registerGameSettings() {
 //  ラウンドセット
 // ===========================================
 
+// ラウンドの準備
 function setupRound() {
   if (gameState.gameMode === 'tamed') {
     initWordSetScreen();
@@ -472,7 +472,7 @@ function setupRound() {
   }
 }
 
-// スタートラウンド
+// ラウンド開始
 function startRound() {
   gameState.roundCount++;
   assignWolfAndWords();
@@ -494,9 +494,10 @@ function assignWolfAndWords() {
   });
 }
 
+// 野生モードのワード設定
 function settingWildModeWords() {
   // ランダムにワードセットを選択し、どちらをウルフワードにするかもランダムに決定
-  const selectedWordSet = wordSets[Math.floor(Math.random() * wordSets.length)];
+  const selectedWordSet = gameState.wordSets[Math.floor(Math.random() * gameState.wordSets.length)];
   const isFirstWordWolf = Math.random() < 0.5; // 50%の確率で最初のワードをウルフワードにする
 
   if (isFirstWordWolf) {
@@ -508,7 +509,7 @@ function settingWildModeWords() {
   }
 }
 
-// ラウンドカウントアニメーション
+// ラウンドカウントのアニメーション
 function roundCountAnimation() {
   elements.roundCount.textContent = `Round ${gameState.roundCount}`;
   elements.modalMask.classList.add('modal-mask--active');
@@ -528,6 +529,7 @@ function roundCountAnimation() {
 //  ワードセット画面（家畜モード）
 // ===========================================
 
+// ワードセット画面の初期化
 function initWordSetScreen() {
   assignMaster();
   showWordSetScreen();
@@ -565,6 +567,7 @@ function assignMaster() {
   });
 }
 
+// ワード入力のバリデーション
 function validateWordInput() {
   const villager = elements.wordSetVillagerWord.value.trim();
   const wolf = elements.wordSetWolfWord.value.trim();
@@ -585,6 +588,7 @@ function validateWordInput() {
   elements.wordSetConfirmBtn.disabled = false;
 }
 
+// ワード入力のスワップ
 function wordSetSwap() {
   const toWolfWord = elements.wordSetVillagerWord.value;
   const toVillagerWord = elements.wordSetWolfWord.value;
@@ -592,6 +596,7 @@ function wordSetSwap() {
   elements.wordSetWolfWord.value = toWolfWord;
 }
 
+// ワードセットの設定
 function settingTamedModeWords() {
   gameState.villagerWord = elements.wordSetVillagerWord.value.trim();
   gameState.wolfWord = elements.wordSetWolfWord.value.trim();
@@ -819,6 +824,7 @@ function timerEnd() {
   initVote();
 }
 
+// タイマー終了時のオーディオ再生
 function playTimerSound() {
   elements.wolfSound.play();
 }
@@ -1047,6 +1053,7 @@ function setupWolfChanceScreen() {
   saveGameState();
 }
 
+// 逆転チャンス入力のバリデーション
 function validateGuessInput() {
   elements.submitGuessBtn.disabled = !elements.wolfGuess.value.trim();
 }
@@ -1089,6 +1096,7 @@ function setupWolfChanceResultScreen() {
   saveGameState();
 }
 
+// 逆転チャンス結果の修正
 function modifyWolfGuessResult() {
   gameState.isWolfWinner = !gameState.isWolfWinner;
 
@@ -1187,6 +1195,7 @@ function showScoreBoard() {
   });
 }
 
+// マスターとプレイヤーを合流
 function playerMarge() {
   // マスターがいる場合はプレイヤー末尾に戻す
   if (gameState.master) {
@@ -1345,6 +1354,7 @@ function loadGameState() {
 //  ページ読み込み時に初期化
 // ===========================================
 
+// ページ読み込み時に初期化
 document.addEventListener('DOMContentLoaded', () => {
   init().catch(error => {
     console.error('初期化に失敗しました:', error);
